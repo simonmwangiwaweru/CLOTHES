@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #F2EEE9;
+  --color-surface: #EBE5DE;
+  --color-ink: #0A0A0A;
+  --color-muted: #6B645D;
+  --color-taupe: #8A7F76;
+  --color-stone: #5C5651;
+  --color-line: rgba(26, 26, 26, 0.7);
+  --color-whatsapp: #25D366;
+
+  --font-display: "Bebas Neue", "Anton", "Oswald", Impact, sans-serif;
+  --font-body: "Archivo", "Inter", sans-serif;
+}
+
+:root {
+  --bg: #F2EEE9;
+  --surface: #EBE5DE;
+  --ink: #0A0A0A;
+  --muted: #6B645D;
+  --taupe: #8A7F76;
+  --stone: #5C5651;
+  --line: rgba(26, 26, 26, 0.7);
+  --whatsapp: #25D366;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body), "Archivo", sans-serif;
+  background-color: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for horizontal product sliders */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Thin outline utility for cards */
+.editorial-border {
+  border: 1px solid rgba(26, 26, 26, 0.7);
+}
+
+.editorial-card {
+  border: 1px solid rgba(26, 26, 26, 0.7);
+  border-radius: 20px;
+  background-color: transparent;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.editorial-pill {
+  border: 1px solid rgba(26, 26, 26, 0.7);
+  border-radius: 9999px;
+}
