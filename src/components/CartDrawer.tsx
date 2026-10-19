@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { X, Trash2, Plus, Minus, MessageCircle, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice, generateOrderCode } from '../lib/format';
-import { buildWhatsAppOrderMessage, getWhatsAppUrl } from '../lib/whatsapp';
+import { buildWhatsAppOrderMessage, getWhatsAppUrl, openWhatsApp } from '../lib/whatsapp';
+import { useDialog } from '../lib/useDialog';
+import { ProductImage } from './ProductImage';
 import { CheckoutFormState } from '../types';
 
+type FormErrors = Partial<Record<'fullName' | 'phone' | 'deliveryArea', string>>;
+
+const DELIVERY_METHODS: { value: CheckoutFormState['deliveryMethod']; label: string }[] = [
+  { value: 'Doorstep Delivery', label: 'Doorstep delivery (Nairobi)' },
+  { value: 'Pickup (Nairobi CBD)', label: 'Pickup (Nairobi CBD)' },
+  { value: 'Countrywide Parcel Transit', label: 'Countrywide courier (Fargo / G4S)' },
+];
+
+function validate(form: CheckoutFormState): FormErrors {
+  const errors: FormErrors = {};
+  if (form.fullName.trim().length < 2) errors.fullName = 'Enter your full name.';
+  if (form.phone.replace(/\D/g, '').length < 9) errors.phone = 'Enter a phone number with at least 9 digits.';
+  if (form.deliveryArea.trim().length < 3) errors.deliveryArea = 'Enter your estate, street or pickup location.';
+  return errors;
+}
+
 export const CartDrawer: React.FC = () => {
-  const {
-    items,
-    isCartOpen,
-    closeCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    subtotal,
-    totalItems,
-    addToast,
-  } = useCart();
+  const { items, isCartOpen, closeCart, removeFromCart, updateQuantity, clearCart, subtotal, totalItems, addToast } =
+    useCart();
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   const [form, setForm] = useState<CheckoutFormState>({
     fullName: '',
@@ -25,321 +35,254 @@ export const CartDrawer: React.FC = () => {
     deliveryMethod: 'Doorstep Delivery',
     orderNote: '',
   });
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  // Close on Escape
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeCart();
-    };
-    if (isCartOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isCartOpen, closeCart]);
+  useDialog(isCartOpen, closeCart, drawerRef);
 
   if (!isCartOpen) return null;
 
-  const isFormValid =
-    form.fullName.trim().length >= 2 &&
-    form.phone.trim().length >= 7 &&
-    form.deliveryArea.trim().length >= 3;
+  const setField = <K extends keyof CheckoutFormState>(key: K, value: CheckoutFormState[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    if (key in errors) setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
 
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const newErrors: { [key: string]: string } = {};
-    if (!form.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!form.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (!form.deliveryArea.trim()) newErrors.deliveryArea = 'Delivery address is required';
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    const found = validate(form);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      document.getElementById(`checkout-${Object.keys(found)[0]}`)?.focus();
       return;
     }
 
     const orderCode = generateOrderCode();
     const message = buildWhatsAppOrderMessage(items, subtotal, form, orderCode);
-    const whatsappUrl = getWhatsAppUrl(message);
-
-    addToast('Opening WhatsApp...', `Order #UND-${orderCode} ready for dispatch`, 'whatsapp');
-
-    // Open WhatsApp link
-    window.location.href = whatsappUrl;
+    addToast('Opening WhatsApp', `Order #UND-${orderCode}. Send the message to confirm.`, 'whatsapp');
+    openWhatsApp(getWhatsAppUrl(message));
   };
 
+  const fieldProps = (key: keyof FormErrors) => ({
+    id: `checkout-${key}`,
+    'aria-invalid': errors[key] ? (true as const) : undefined,
+    'aria-describedby': errors[key] ? `checkout-${key}-error` : undefined,
+  });
+
+  const renderError = (key: keyof FormErrors) =>
+    errors[key] && (
+      <span id={`checkout-${key}-error`} className="field-error">
+        {errors[key]}
+      </span>
+    );
+
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Your Shopping Bag"
-      className="fixed inset-0 z-50 flex justify-end bg-[#0A0A0A]/60 backdrop-blur-xs animate-in fade-in duration-200"
-      onClick={closeCart}
-    >
-      {/* Drawer Container */}
+    <div className="fixed inset-0 z-50 flex animate-fade-in justify-end bg-ink/60 backdrop-blur-xs" onClick={closeCart}>
       <div
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bag-title"
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-lg h-full bg-[#F2EEE9] text-[#0A0A0A] border-l border-[rgba(26,26,26,0.7)] flex flex-col justify-between shadow-2xl animate-in slide-in-from-right duration-300 overflow-hidden"
+        className="flex h-full w-full max-w-lg animate-slide-in-right flex-col overflow-hidden border-l border-line bg-bg shadow-2xl"
       >
-        {/* Drawer Header */}
-        <div className="p-5 sm:p-6 border-b border-[rgba(26,26,26,0.5)] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h2 className="font-['Bebas_Neue',Anton,sans-serif] text-2xl uppercase tracking-wider">
-              YOUR BAG
+        <div className="flex items-center justify-between border-b border-line-soft p-5 sm:p-6">
+          <div className="flex items-center gap-3">
+            <h2 id="bag-title" className="heading-card text-3xl">
+              Your bag
             </h2>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#EBE5DE] border border-[rgba(26,26,26,0.3)] tabular-nums">
+            <span className="rounded-full border border-line-soft bg-surface px-2.5 py-0.5 text-xs font-semibold tabular-nums">
               {totalItems} {totalItems === 1 ? 'item' : 'items'}
             </span>
           </div>
 
           <div className="flex items-center gap-3">
             {items.length > 0 && (
-              <button
-                onClick={clearCart}
-                className="text-xs text-[#6B645D] hover:text-[#0A0A0A] underline underline-offset-2"
-              >
-                Clear all
+              <button onClick={clearCart} className="text-sm text-muted underline underline-offset-2 hover:text-ink">
+                Empty bag
               </button>
             )}
-            <button
-              onClick={closeCart}
-              className="w-8 h-8 rounded-full border border-[rgba(26,26,26,0.7)] flex items-center justify-center text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-[#F2EEE9] transition-colors focus-visible:outline-2 focus-visible:outline-[#0A0A0A]"
-              aria-label="Close cart drawer"
-            >
-              <X className="w-4 h-4" />
+            <button onClick={closeCart} className="icon-btn" aria-label="Close bag">
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {/* Drawer Body */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
-          {items.length === 0 ? (
-            /* Empty Cart State */
-            <div className="h-full flex flex-col items-center justify-center text-center py-16 space-y-4">
-              <div className="w-16 h-16 rounded-full border border-[rgba(26,26,26,0.7)] bg-[#EBE5DE] flex items-center justify-center">
-                <ShoppingBag className="w-7 h-7 text-[#6B645D]" />
-              </div>
-              <h3 className="font-['Bebas_Neue',Anton,sans-serif] text-3xl uppercase tracking-wide">
-                Your bag is empty
-              </h3>
-              <p className="text-xs sm:text-sm text-[#6B645D] max-w-xs">
-                Browse our latest drops and heavyweight streetwear collection.
-              </p>
-              <button
-                onClick={closeCart}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#0A0A0A] text-[#F2EEE9] text-xs font-semibold uppercase tracking-wider hover:bg-[#2A2927] transition-colors"
-              >
-                <span>Continue shopping</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ) : (
-            <>
-              {/* Item List */}
-              <div className="space-y-4">
-                {items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex gap-4 p-3 rounded-[16px] border border-[rgba(26,26,26,0.4)] bg-[#EBE5DE]/50"
-                  >
-                    {/* Thumbnail */}
-                    <div className="w-20 h-20 shrink-0 rounded-[12px] overflow-hidden border border-[rgba(26,26,26,0.3)] bg-[#EBE5DE]">
-                      <img
-                        src={item.product.images[0]}
-                        alt={item.product.name}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-contain p-1"
-                      />
-                    </div>
-
-                    {/* Details */}
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h4 className="text-xs sm:text-sm font-semibold text-[#0A0A0A] line-clamp-1">
-                            {item.product.name}
-                          </h4>
-                          <p className="text-[11px] text-[#6B645D] mt-0.5">
-                            Size: <span className="text-[#0A0A0A] font-medium">{item.selectedSize}</span> · Color: <span className="text-[#0A0A0A] font-medium">{item.selectedColor.name}</span>
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-[#6B645D] hover:text-[#0A0A0A] p-1 transition-colors"
-                          aria-label={`Remove ${item.product.name} from cart`}
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-
-                      <div className="flex items-center justify-between mt-2">
-                        {/* Stepper */}
-                        <div className="flex items-center rounded-full border border-[rgba(26,26,26,0.5)] bg-[#F2EEE9] px-2 py-0.5">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="p-1 hover:text-[#6B645D]"
-                            aria-label="Decrease quantity"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-6 text-center text-xs font-semibold tabular-nums">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 hover:text-[#6B645D]"
-                            aria-label="Increase quantity"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-
-                        {/* Price */}
-                        <span className="text-xs font-bold tabular-nums text-[#0A0A0A]">
-                          {formatPrice(item.product.price * item.quantity)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Delivery Details Form */}
-              <div className="pt-4 border-t border-[rgba(26,26,26,0.4)] space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-['Bebas_Neue',Anton,sans-serif] text-xl uppercase tracking-wider">
-                    DELIVERY & CONTACT DETAILS
-                  </h3>
-                  <span className="text-[10px] text-[#6B645D]">Required for WhatsApp order</span>
+        <form onSubmit={handleCheckout} noValidate className="flex min-h-0 flex-1 flex-col">
+          <div className="flex-1 space-y-6 overflow-y-auto p-5 sm:p-6">
+            {items.length === 0 ? (
+              <div className="flex h-full flex-col items-center justify-center space-y-4 py-16 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-line bg-surface">
+                  <ShoppingBag className="h-7 w-7 text-muted" aria-hidden="true" />
                 </div>
+                <h3 className="heading-card text-3xl">Your bag is empty</h3>
+                <p className="max-w-xs text-sm text-muted">Add a piece from the collection and it will show up here.</p>
+                <button type="button" onClick={closeCart} className="btn-primary">
+                  <span>Keep shopping</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <>
+                <ul className="space-y-4">
+                  {items.map((item) => (
+                    <li key={item.id} className="panel flex gap-4 p-3">
+                      <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line-soft bg-surface">
+                        <ProductImage src={item.product.images[0]} alt={item.product.name} caption={false} />
+                      </div>
 
-                <div className="space-y-3">
+                      <div className="flex flex-1 flex-col justify-between">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <h3 className="line-clamp-1 text-sm font-semibold">{item.product.name}</h3>
+                            <p className="mt-0.5 text-xs text-muted">
+                              {item.selectedSize} · {item.selectedColor.name}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(item.id)}
+                            className="rounded-full p-1.5 text-muted transition-colors hover:text-ink"
+                            aria-label={`Remove ${item.product.name} from bag`}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+
+                        <div className="mt-2 flex items-center justify-between">
+                          <div className="stepper">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              aria-label={`Decrease quantity of ${item.product.name}`}
+                            >
+                              <Minus className="h-3 w-3" />
+                            </button>
+                            <span className="w-6 text-center text-sm font-semibold tabular-nums">{item.quantity}</span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              aria-label={`Increase quantity of ${item.product.name}`}
+                            >
+                              <Plus className="h-3 w-3" />
+                            </button>
+                          </div>
+                          <span className="text-sm font-bold tabular-nums">
+                            {formatPrice(item.product.price * item.quantity)}
+                          </span>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <fieldset className="space-y-4 border-t border-line-soft pt-4">
+                  <legend className="sr-only">Delivery and contact details</legend>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="heading-card text-xl">Delivery details</h3>
+                    <span className="text-xs text-muted">All fields required except the note</span>
+                  </div>
+
                   <div>
-                    <label className="block text-xs font-medium text-[#0A0A0A] mb-1">
-                      Full Name *
+                    <label htmlFor="checkout-fullName" className="mb-1 block text-sm font-medium">
+                      Full name
                     </label>
                     <input
+                      {...fieldProps('fullName')}
                       type="text"
-                      required
-                      placeholder="e.g. Brian Ochieng"
+                      autoComplete="name"
+                      placeholder="Brian Ochieng"
                       value={form.fullName}
-                      onChange={(e) => {
-                        setForm({ ...form, fullName: e.target.value });
-                        if (errors.fullName) setErrors({ ...errors, fullName: '' });
-                      }}
-                      className="w-full px-3.5 py-2 text-xs rounded-full border border-[rgba(26,26,26,0.6)] bg-white text-[#0A0A0A] placeholder-[#6B645D] outline-none focus:border-[#0A0A0A]"
+                      onChange={(e) => setField('fullName', e.target.value)}
+                      className="field"
                     />
-                    {errors.fullName && (
-                      <span className="text-[10px] text-red-600 mt-0.5 block">{errors.fullName}</span>
-                    )}
+                    {renderError('fullName')}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#0A0A0A] mb-1">
-                      Phone Number (for WhatsApp & Delivery) *
+                    <label htmlFor="checkout-phone" className="mb-1 block text-sm font-medium">
+                      Phone number
                     </label>
                     <input
+                      {...fieldProps('phone')}
                       type="tel"
-                      required
-                      placeholder="e.g. 0712 345 678"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="0712 345 678"
                       value={form.phone}
-                      onChange={(e) => {
-                        setForm({ ...form, phone: e.target.value });
-                        if (errors.phone) setErrors({ ...errors, phone: '' });
-                      }}
-                      className="w-full px-3.5 py-2 text-xs rounded-full border border-[rgba(26,26,26,0.6)] bg-white text-[#0A0A0A] placeholder-[#6B645D] outline-none focus:border-[#0A0A0A]"
+                      onChange={(e) => setField('phone', e.target.value)}
+                      className="field"
                     />
-                    {errors.phone && (
-                      <span className="text-[10px] text-red-600 mt-0.5 block">{errors.phone}</span>
-                    )}
+                    {renderError('phone')}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#0A0A0A] mb-1">
-                      Delivery Address / Estate / Pickup Location *
+                    <label htmlFor="checkout-deliveryArea" className="mb-1 block text-sm font-medium">
+                      Delivery address or pickup location
                     </label>
                     <input
+                      {...fieldProps('deliveryArea')}
                       type="text"
-                      required
-                      placeholder="e.g. Kilimani, Wood Avenue, Apt 4B"
+                      autoComplete="street-address"
+                      placeholder="Kilimani, Wood Avenue, Apt 4B"
                       value={form.deliveryArea}
-                      onChange={(e) => {
-                        setForm({ ...form, deliveryArea: e.target.value });
-                        if (errors.deliveryArea) setErrors({ ...errors, deliveryArea: '' });
-                      }}
-                      className="w-full px-3.5 py-2 text-xs rounded-full border border-[rgba(26,26,26,0.6)] bg-white text-[#0A0A0A] placeholder-[#6B645D] outline-none focus:border-[#0A0A0A]"
+                      onChange={(e) => setField('deliveryArea', e.target.value)}
+                      className="field"
                     />
-                    {errors.deliveryArea && (
-                      <span className="text-[10px] text-red-600 mt-0.5 block">{errors.deliveryArea}</span>
-                    )}
+                    {renderError('deliveryArea')}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#0A0A0A] mb-1">
-                      Delivery Method
+                    <label htmlFor="checkout-deliveryMethod" className="mb-1 block text-sm font-medium">
+                      Delivery method
                     </label>
                     <select
+                      id="checkout-deliveryMethod"
                       value={form.deliveryMethod}
-                      onChange={(e) => setForm({ ...form, deliveryMethod: e.target.value as any })}
-                      className="w-full px-3.5 py-2 text-xs rounded-full border border-[rgba(26,26,26,0.6)] bg-white text-[#0A0A0A] outline-none focus:border-[#0A0A0A] cursor-pointer"
+                      onChange={(e) => setField('deliveryMethod', e.target.value as CheckoutFormState['deliveryMethod'])}
+                      className="field cursor-pointer"
                     >
-                      <option value="Doorstep Delivery">Doorstep Delivery (Nairobi Metro)</option>
-                      <option value="Pickup (Nairobi CBD)">Pickup (Nairobi CBD Point)</option>
-                      <option value="Countrywide Parcel Transit">Countrywide Parcel Transit (Fargo / G4S)</option>
+                      {DELIVERY_METHODS.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#0A0A0A] mb-1">
-                      Order Note / Special Instructions (Optional)
+                    <label htmlFor="checkout-orderNote" className="mb-1 block text-sm font-medium">
+                      Note (optional)
                     </label>
                     <textarea
+                      id="checkout-orderNote"
                       rows={2}
-                      placeholder="e.g. Please deliver after 4 PM, call on arrival"
+                      placeholder="Deliver after 4 PM and call on arrival"
                       value={form.orderNote}
-                      onChange={(e) => setForm({ ...form, orderNote: e.target.value })}
-                      className="w-full px-3.5 py-2 text-xs rounded-[14px] border border-[rgba(26,26,26,0.6)] bg-white text-[#0A0A0A] placeholder-[#6B645D] outline-none focus:border-[#0A0A0A] resize-none"
+                      onChange={(e) => setField('orderNote', e.target.value)}
+                      className="field"
                     />
                   </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Drawer Footer with Subtotal & WhatsApp CTA */}
-        {items.length > 0 && (
-          <div className="p-5 sm:p-6 border-t border-[rgba(26,26,26,0.5)] bg-[#EBE5DE] space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-[#6B645D] font-medium">Subtotal</span>
-              <span className="text-xl font-bold tabular-nums text-[#0A0A0A]">
-                {formatPrice(subtotal)}
-              </span>
-            </div>
-            
-            <p className="text-[11px] text-[#6B645D]">
-              No card required now. Delivery fee and final payment (M-Pesa / Cash) will be confirmed with our team via WhatsApp.
-            </p>
-
-            <button
-              onClick={handleCheckout}
-              disabled={!isFormValid}
-              className={`w-full flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
-                isFormValid
-                  ? 'bg-[#25D366] text-white hover:bg-[#20ba59] shadow-md cursor-pointer'
-                  : 'bg-[#6B645D]/40 text-white/80 cursor-not-allowed'
-              }`}
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Complete Order on WhatsApp</span>
-            </button>
+                </fieldset>
+              </>
+            )}
           </div>
-        )}
+
+          {items.length > 0 && (
+            <div className="space-y-3 border-t border-line-soft bg-surface p-5 sm:p-6">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-muted">Subtotal</span>
+                <span className="text-xl font-bold tabular-nums">{formatPrice(subtotal)}</span>
+              </div>
+              <p className="text-xs text-muted">
+                You pay nothing now. We confirm the delivery fee and take payment (M-Pesa or cash) on WhatsApp.
+              </p>
+              <button type="submit" className="btn-whatsapp w-full py-3.5">
+                <MessageCircle className="h-4 w-4" />
+                <span>Send order on WhatsApp</span>
+              </button>
+            </div>
+          )}
+        </form>
       </div>
     </div>
   );

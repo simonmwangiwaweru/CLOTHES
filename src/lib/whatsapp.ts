@@ -77,3 +77,12 @@ export function getGeneralInquiryUrl(customMessage?: string): string {
   const message = customMessage || SITE_CONFIG.whatsapp.defaultInquiryMessage;
   return getWhatsAppUrl(message);
 }
+
+/**
+ * Opens WhatsApp in a new tab so the shopper keeps their bag and place on the page.
+ * Falls back to same-tab navigation if the browser blocks the popup.
+ */
+export function openWhatsApp(url: string): void {
+  const win = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!win) window.location.href = url;
+}

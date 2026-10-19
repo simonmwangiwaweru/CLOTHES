@@ -1,4 +1,5 @@
 import { Product } from '../types';
+import { IMAGES } from './images';
 
 export const PRODUCTS: Product[] = [
   {
@@ -9,23 +10,22 @@ export const PRODUCTS: Product[] = [
     price: 2500,
     compareAtPrice: 3200,
     images: [
-      '/src/assets/images/product_oversized_bone_hoodie_1792442273052.jpg',
-      '/public/assets/aistudio/WhatsApp_Image_2026-10-19_at_21.50.47_5c9a19fe.jpeg',
-      '/src/assets/images/hoodie_editorial_detail_1792442238613.jpg',
+      IMAGES.hoodieBrown,
+      IMAGES.zipHoodieTree,
+      IMAGES.zipHoodieSteps,
     ],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: [
-      { name: 'Bone Off-White', hex: '#F2EEE9' },
-      { name: 'Washed Charcoal', hex: '#2A2927' },
-      { name: 'Earth Stone', hex: '#5C5651' },
+      { name: 'Chocolate Brown', hex: '#4A2F27' },
+      { name: 'Midnight Navy', hex: '#1B2A41' },
     ],
-    description: 'Signature oversized streetwear hoodie crafted from custom 480 GSM 100% natural cotton fleece. Features a structured double-layer hood without cords, dropped shoulders, and kangaroo pocket.',
+    description: 'Signature oversized streetwear hoodie crafted from custom 480 GSM 100% natural cotton fleece. Features a structured double-layer hood, dropped shoulders and a kangaroo pocket.',
     details: [
       '100% pure natural combed cotton',
       '480 GSM heavy loopback fleece',
       'Double-stitched seamless shoulder drop',
       'Pre-shrunk garment enzyme wash',
-      'Tone-on-tone eclipse branding',
+      'UNDIGNIFIED · 2 Samuel 6:22 chest print',
     ],
     tags: ['Hoodie', 'Heavyweight', 'Signature', 'Bestseller'],
     isNew: true,
@@ -40,9 +40,7 @@ export const PRODUCTS: Product[] = [
     price: 2000,
     compareAtPrice: 2600,
     images: [
-      '/src/assets/images/product_sweatshirt_1792442673825.jpg',
-      '/public/assets/aistudio/WhatsApp_Image_2026-10-19_at_21.50.47_5c9a19fe.jpeg',
-      '/src/assets/images/hoodie_editorial_detail_1792442238613.jpg',
+      IMAGES.hero,
     ],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: [
@@ -69,10 +67,7 @@ export const PRODUCTS: Product[] = [
     category: 'Polo Shirts',
     price: 1200,
     compareAtPrice: 1600,
-    images: [
-      '/src/assets/images/product_polo_shirt_1792442691396.jpg',
-      '/src/assets/images/hero_streetwear_trio_1792442224149.jpg',
-    ],
+    images: [],
     sizes: ['S', 'M', 'L', 'XL'],
     colors: [
       { name: 'Raw Bone', hex: '#F0ECE4' },
@@ -98,10 +93,7 @@ export const PRODUCTS: Product[] = [
     category: 'T-Shirts',
     price: 1000,
     compareAtPrice: 1400,
-    images: [
-      '/src/assets/images/hero_streetwear_trio_1792442224149.jpg',
-      '/src/assets/images/product_sweatshirt_1792442673825.jpg',
-    ],
+    images: [],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: [
       { name: 'Carbon Black', hex: '#121212' },
@@ -128,15 +120,16 @@ export const PRODUCTS: Product[] = [
     price: 1200,
     compareAtPrice: 1500,
     images: [
-      '/src/assets/images/product_streetwear_cap_1792442706125.jpg',
+      IMAGES.hoodieBrown,
+      IMAGES.zipHoodieTree,
     ],
     sizes: ['One Size (Adjustable)'],
     colors: [
-      { name: 'Washed Charcoal', hex: '#2A2927' },
       { name: 'Raw Black', hex: '#121212' },
+      { name: 'Washed Charcoal', hex: '#2A2927' },
       { name: 'Bone White', hex: '#EBE5DE' },
     ],
-    description: 'Unstructured low-profile dad cap made from 100% heavy washed cotton twill. Finished with an antique brass closure buckle and tonal embroidered eclipse icon.',
+    description: 'Unstructured low-profile dad cap made from 100% heavy washed cotton twill. Finished with a closure buckle and the UNDIGNIFIED wordmark embroidered on the front.',
     details: [
       '100% washed heavy cotton twill',
       'Unstructured 6-panel silhouette',
@@ -156,8 +149,8 @@ export const PRODUCTS: Product[] = [
     price: 800,
     compareAtPrice: 1000,
     images: [
-      '/public/assets/aistudio/WhatsApp_Image_2026-10-19_at_21.50.47_5c9a19fe.jpeg',
-      '/src/assets/images/product_jute_tote_bag_1792442721258.jpg',
+      IMAGES.toteOrange,
+      IMAGES.zipHoodieSteps,
     ],
     sizes: ['A4 Standard (32 × 25 × 10 cm)'],
     colors: [
@@ -184,8 +177,8 @@ export const PRODUCTS: Product[] = [
     price: 1000,
     compareAtPrice: 1300,
     images: [
-      '/public/assets/aistudio/WhatsApp_Image_2026-10-19_at_21.50.47_5c9a19fe.jpeg',
-      '/src/assets/images/product_jute_tote_bag_1792442721258.jpg',
+      IMAGES.toteOrange,
+      IMAGES.zipHoodieTree,
     ],
     sizes: ['A3 Large (42 × 34 × 15 cm)'],
     colors: [
@@ -211,9 +204,7 @@ export const PRODUCTS: Product[] = [
     category: 'Accessories',
     price: 100,
     compareAtPrice: 150,
-    images: [
-      '/src/assets/images/product_wristband_1792442737218.jpg',
-    ],
+    images: [],
     sizes: ['Standard Adult (202mm)'],
     colors: [
       { name: 'Matte Black / Cream Text', hex: '#121212' },

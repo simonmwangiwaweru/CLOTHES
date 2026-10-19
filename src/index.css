@@ -1,66 +1,198 @@
 @import "tailwindcss";
 
+/*
+ * UNDIGNIFIED design tokens — single source of truth.
+ * Components use these via utilities (bg-bg, text-muted, rounded-card, font-display…)
+ * and the shared classes in @layer components below. No raw hex in components.
+ */
 @theme {
   --color-bg: #F2EEE9;
   --color-surface: #EBE5DE;
   --color-ink: #0A0A0A;
+  --color-ink-soft: #2A2927;
   --color-muted: #6B645D;
-  --color-taupe: #8A7F76;
-  --color-stone: #5C5651;
-  --color-line: rgba(26, 26, 26, 0.7);
+  --color-line: rgb(26 26 26 / 0.7);
+  --color-line-soft: rgb(26 26 26 / 0.3);
   --color-whatsapp: #25D366;
+  --color-whatsapp-strong: #1FB858;
+  --color-danger: #B3261E;
 
-  --font-display: "Bebas Neue", "Anton", "Oswald", Impact, sans-serif;
-  --font-body: "Archivo", "Inter", sans-serif;
+  --font-display: "Bebas Neue", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --font-sans: "Archivo", system-ui, sans-serif;
+
+  --radius-card: 20px;
+  --radius-inner: 14px;
+
+  --animate-fade-in: fade-in 200ms ease-out both;
+  --animate-pop-in: pop-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slide-in-right: slide-in-right 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-rise-in: rise-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.97) translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: none; }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
 }
 
-:root {
-  --bg: #F2EEE9;
-  --surface: #EBE5DE;
-  --ink: #0A0A0A;
-  --muted: #6B645D;
-  --taupe: #8A7F76;
-  --stone: #5C5651;
-  --line: rgba(26, 26, 26, 0.7);
-  --whatsapp: #25D366;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem; /* clears the sticky header on anchor jumps */
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  /* One visible focus treatment for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-  font-family: var(--font-body), "Archivo", sans-serif;
-  background-color: var(--bg);
-  color: var(--ink);
-}
+@layer components {
+  /* ---------- Layout ---------- */
+  .page-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .section {
+    @apply py-16;
+  }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+  /* ---------- Type ---------- */
+  .heading-section {
+    @apply font-display text-5xl sm:text-6xl md:text-7xl uppercase leading-none tracking-tight;
+  }
+  .heading-card {
+    @apply font-display text-2xl uppercase leading-none tracking-wide;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-widest text-muted;
+  }
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-ink;
+  }
 
-/* Custom Scrollbar for horizontal product sliders */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+  /* ---------- Surfaces ---------- */
+  .card {
+    @apply rounded-card border border-line bg-surface/40 transition-colors duration-300;
+  }
+  .card-interactive:hover {
+    @apply bg-surface;
+  }
+  .panel {
+    @apply rounded-inner border border-line-soft bg-surface/60;
+  }
 
-/* Thin outline utility for cards */
-.editorial-border {
-  border: 1px solid rgba(26, 26, 26, 0.7);
-}
+  /* ---------- Buttons ---------- */
+  .btn,
+  .btn-primary,
+  .btn-whatsapp,
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-200 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply bg-ink text-bg hover:bg-ink-soft;
+  }
+  .btn-whatsapp {
+    @apply bg-whatsapp text-ink hover:bg-whatsapp-strong;
+  }
+  .btn-outline {
+    @apply border border-line text-ink hover:bg-ink hover:text-bg;
+  }
+  .btn-sm {
+    @apply px-4 py-2;
+  }
+  .icon-btn {
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-ink hover:text-bg;
+  }
 
-.editorial-card {
-  border: 1px solid rgba(26, 26, 26, 0.7);
-  border-radius: 20px;
-  background-color: transparent;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
-}
+  /* ---------- Chips (filters, sizes) ---------- */
+  .chip {
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-surface;
+  }
+  .chip[aria-pressed="true"] {
+    @apply border-ink bg-ink text-bg hover:bg-ink;
+  }
 
-.editorial-pill {
-  border: 1px solid rgba(26, 26, 26, 0.7);
-  border-radius: 9999px;
+  /* ---------- Form fields ---------- */
+  .field {
+    @apply w-full rounded-full border border-line bg-white px-4 py-2.5 text-sm text-ink placeholder:text-muted;
+  }
+  .field[aria-invalid="true"] {
+    @apply border-danger;
+  }
+  textarea.field {
+    @apply rounded-inner resize-none;
+  }
+  .field-error {
+    @apply mt-1 block text-xs font-medium text-danger;
+  }
+
+  /* ---------- Quantity stepper ---------- */
+  .stepper {
+    @apply inline-flex items-center rounded-full border border-line bg-bg px-1;
+  }
+  .stepper button {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-surface;
+  }
+
+  /* ---------- Misc ---------- */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Brief highlight when the nav jumps to a product card. */
+  .flash-highlight {
+    animation: flash-highlight 1.6s ease-out;
+  }
+  @keyframes flash-highlight {
+    0%, 60% { outline: 2px solid var(--color-ink); outline-offset: 4px; }
+    100% { outline: 2px solid transparent; outline-offset: 4px; }
+  }
 }

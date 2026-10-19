@@ -5,43 +5,41 @@ import { useCart } from '../context/CartContext';
 export const ToastContainer: React.FC = () => {
   const { toasts, removeToast } = useCart();
 
-  if (toasts.length === 0) return null;
-
+  // The live region stays mounted so screen readers announce toasts as they arrive.
   return (
     <div
+      role="status"
       aria-live="polite"
-      className="fixed bottom-6 left-6 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full"
+      className="pointer-events-none fixed inset-x-4 bottom-6 z-[60] flex flex-col gap-2 sm:inset-x-auto sm:left-6 sm:w-full sm:max-w-sm"
     >
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className="pointer-events-auto flex items-start gap-3 p-4 rounded-[16px] border border-[rgba(26,26,26,0.7)] bg-[#F2EEE9] text-[#0A0A0A] shadow-xl animate-in slide-in-from-bottom-3 duration-300"
+          className="pointer-events-auto flex animate-rise-in items-start gap-3 rounded-inner border border-line bg-bg p-4 shadow-xl"
         >
-          {toast.type === 'whatsapp' ? (
-            <div className="w-7 h-7 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0">
-              <MessageCircle className="w-4 h-4" />
-            </div>
-          ) : (
-            <div className="w-7 h-7 rounded-full bg-[#0A0A0A] text-[#F2EEE9] flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
-          )}
-
-          <div className="flex-1 pr-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#0A0A0A]">
-              {toast.title}
-            </h4>
-            {toast.description && (
-              <p className="text-xs text-[#6B645D] mt-0.5">{toast.description}</p>
+          <div
+            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
+              toast.type === 'whatsapp' ? 'bg-whatsapp text-ink' : 'bg-ink text-bg'
+            }`}
+          >
+            {toast.type === 'whatsapp' ? (
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
             )}
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold">{toast.title}</p>
+            {toast.description && <p className="mt-0.5 text-sm text-muted">{toast.description}</p>}
           </div>
 
           <button
             onClick={() => removeToast(toast.id)}
-            className="text-[#6B645D] hover:text-[#0A0A0A] p-0.5"
-            aria-label="Dismiss notification"
+            className="rounded-full p-1 text-muted hover:text-ink"
+            aria-label="Dismiss"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="h-3.5 w-3.5" />
           </button>
         </div>
       ))}

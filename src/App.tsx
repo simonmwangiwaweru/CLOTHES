@@ -10,6 +10,7 @@ import { Hero } from './components/Hero';
 import { AboutUs } from './components/AboutUs';
 import { PopularGoods } from './components/PopularGoods';
 import { Collections } from './components/Collections';
+import { Delivery } from './components/Delivery';
 import { ContactFooter } from './components/ContactFooter';
 import { ProductModal } from './components/ProductModal';
 import { CartDrawer } from './components/CartDrawer';
@@ -19,28 +20,19 @@ import { ToastContainer } from './components/Toast';
 export default function App() {
   return (
     <CartProvider>
-      <div className="min-h-screen bg-[#F2EEE9] text-[#0A0A0A] font-sans selection:bg-[#0A0A0A] selection:text-[#F2EEE9] relative">
-        {/* Sticky Global Navigation */}
+      <div className="relative min-h-screen bg-bg font-sans text-ink">
         <Header />
 
         <main>
-          {/* Section B: Hero Carousel featuring UNDIGNIFIED photoshoot */}
           <Hero />
-
-          {/* Section C: About Us Asymmetrical Layout */}
           <AboutUs />
-
-          {/* Section D: Popular Goods Horizontal Carousel */}
           <PopularGoods />
-
-          {/* Section E: Collections & Full Product Grid */}
           <Collections />
+          <Delivery />
         </main>
 
-        {/* Section H: Contacts & Footer */}
         <ContactFooter />
 
-        {/* Overlays, Modals, Drawer & Floating Affordances */}
         <ProductModal />
         <CartDrawer />
         <WhatsAppFab />

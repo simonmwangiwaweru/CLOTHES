@@ -1,6 +1,0 @@
-{
-  "name": "UNDIGNIFIED | Streetwear Storefront",
-  "description": "Premium, comfortable, unapologetic streetwear. Oversized fits, natural fabrics, bold attitude, quiet confidence.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

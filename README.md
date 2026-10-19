@@ -8,22 +8,12 @@ A high-contrast, editorial e-commerce storefront for streetwear brand **UNDIGNIF
 
 ## Features
 
-- **Editorial Visual Direction**: Warm neutral canvas (`#F2EEE9`), high-contrast Bebas Neue display typography, 1px outlines (`rgba(26,26,26,0.7)`), 16–20px radius cards, and layered depth hero layout.
-- **WhatsApp Checkout Engine**: Customers add pieces with size & color selections, fill in their delivery info, and generate a pre-formatted WhatsApp order dispatch link (`https://wa.me/...`).
-- **Product Catalog (KES)**:
-  1. Heavyweight Loopback Hoodie — KES 2,500
-  2. Washed Loopback Sweatshirt — KES 2,000
-  3. Heavy Knit Streetwear Polo — KES 1,200
-  4. Heavy Round Neck T-Shirt — KES 1,000
-  5. Unstructured 6-Panel Cap — KES 1,200
-  6. Eco Jute Tote Bag A4 — KES 800
-  7. Heavy Eco Jute Shopper Bag A3 — KES 1,000
-  8. Debossed UNDIGNIFIED Wrist Band — KES 100
-- **Asymmetrical About Us**: Multi-angle editorial showcase with offset text and micro-animated arrow.
-- **Popular Goods Slider**: Horizontally scrollable row with scroll-snap and quick-add actions.
-- **Interactive Product Modal**: Size selection, color swatches, quantity steppers, and single-item instant WhatsApp ordering.
-- **Cart Drawer**: Client-side state with `localStorage` persistence, order note, and address validation.
-- **Responsive & Accessible**: Strict 15% mobile sticky cap, keyboard navigation with Esc handling, and zero broken image fallbacks.
+- **Editorial visual direction**: warm bone canvas, Bebas Neue display type over Archivo body text, 1px outlined cards, and a hero headline that sits behind the photo. Every colour, radius and font is a token in `src/index.css`.
+- **WhatsApp checkout**: shoppers fill their bag, enter delivery details, and send a pre-formatted order message to your WhatsApp number (`https://wa.me/...`). No payment gateway.
+- **Catalog**: Hoodie, Sweatshirts, Polo Shirts, Round Neck T-Shirts, Caps, Jute Bags A4 and A3, Wrist Bands, priced in KES in `src/data/products.ts`.
+- **Product modal**: photo gallery, colour, size and quantity, plus a one-tap "Order on WhatsApp".
+- **Bag drawer**: saved in `localStorage`, validated delivery form, and prices re-read from the catalog on every visit.
+- **Accessible**: keyboard-operable cards, dialogs that trap focus and return it on close, labelled form fields, visible focus rings, and reduced-motion support.
 
 ---
 
@@ -88,7 +78,7 @@ To change pricing, add new products, or update sizes:
   category: 'Hoodies',
   price: 2500, // Price in KES
   compareAtPrice: 3200,
-  images: ['/src/assets/images/...'],
+  images: [IMAGES.hoodieBrown], // add photos in src/data/images.ts; leave [] to show a placeholder
   sizes: ['S', 'M', 'L', 'XL', 'XXL'],
   colors: [
     { name: 'Bone Off-White', hex: '#F2EEE9' },
@@ -103,10 +93,12 @@ To change pricing, add new products, or update sizes:
 }
 ```
 
+### How to Add or Change Photos
+Drop the file in `src/assets/images/`, import it in `src/data/images.ts`, then reference it from `src/data/products.ts`. Products with `images: []` show a "Photo coming soon" tile. Currently missing photos: Polo Shirts, Round Neck T-Shirts, Wrist Bands.
+
 ### How to Edit Site Copy & Delivery Details
 Edit `src/config/site.ts`:
 - Brand slogan, tagline, and location
-- Hero slide headlines and banners
 - Nairobi metro, countrywide courier, and M-Pesa payment cards
 
 ---
