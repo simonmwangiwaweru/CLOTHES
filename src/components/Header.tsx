@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full transition-[padding,background-color] duration-300 ${
+        className={`sticky top-0 z-40 w-full border-b border-brass-line transition-[padding,background-color] duration-300 ${
           scrolled ? 'bg-bg/95 py-2 shadow-xs backdrop-blur-md' : 'bg-bg py-3.5'
         }`}
       >
@@ -79,13 +79,13 @@ export const Header: React.FC = () => {
 
             <nav
               aria-label="Shop by product"
-              className="no-scrollbar hidden min-w-0 max-w-[680px] items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg/70 px-3 py-1 backdrop-blur-xs lg:flex xl:max-w-none"
+              className="no-scrollbar hidden min-w-0 max-w-[680px] items-center gap-1 overflow-x-auto rounded-full border border-brass bg-bg/70 px-3 py-1 backdrop-blur-xs lg:flex xl:max-w-none"
             >
               {NAV_PRODUCTS.map((item) => (
                 <button
                   key={item.targetId}
                   onClick={() => handleNavClick(item.targetId)}
-                  className="whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:text-muted"
+                  className="whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:text-brass-text"
                 >
                   {item.label}
                 </button>

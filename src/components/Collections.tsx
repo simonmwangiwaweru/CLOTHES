@@ -99,7 +99,7 @@ export const Collections: React.FC = () => {
 
       <div
         id="products-grid"
-        className="mb-8 flex scroll-mt-24 flex-col justify-between gap-4 border-b border-line-soft pb-4 md:flex-row md:items-center"
+        className="mb-8 flex scroll-mt-24 flex-col justify-between gap-4 border-b border-brass-line pb-4 md:flex-row md:items-center"
       >
         <div className="no-scrollbar -mx-1 flex items-center gap-1.5 overflow-x-auto px-1 py-1" role="group" aria-label="Filter by category">
           <button className="chip" aria-pressed={activeCategory === 'All'} onClick={() => setActiveCategory('All')}>

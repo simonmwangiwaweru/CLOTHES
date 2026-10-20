@@ -31,7 +31,7 @@ export const Payment: React.FC = () => (
           <li key={step.title} className="card flex gap-5 p-6">
             <span
               aria-hidden="true"
-              className="font-display text-5xl leading-none text-gold"
+              className="font-display text-5xl leading-none text-brass-text"
             >
               {index + 1}
             </span>

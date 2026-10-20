@@ -16,7 +16,7 @@ export const MerchBand: React.FC = () => (
       </div>
 
       <div className="lg:col-span-5">
-        <p className="eyebrow mb-3 text-gold">The collection</p>
+        <p className="eyebrow mb-3 text-brass-text">The collection</p>
         <h2 id="merch-title" className="heading-section">
           Wear the message
         </h2>

@@ -29,8 +29,8 @@ const CopyButton: React.FC<{ value: string; label: string }> = ({ value, label }
 
 /** Paybill details, shown under both "Partner with us" and "How to pay". */
 export const PaymentDetails: React.FC<{ heading?: string }> = ({ heading = 'Giving details' }) => (
-  <div className="rounded-card border border-line bg-surface/80 p-6 sm:p-7">
-    <h3 className="heading-card mb-5 text-gold">{heading}</h3>
+  <div className="rounded-card border border-brass bg-surface/80 p-6 sm:p-7">
+    <h3 className="heading-card mb-5 text-brass-text">{heading}</h3>
 
     <dl className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
       <div>

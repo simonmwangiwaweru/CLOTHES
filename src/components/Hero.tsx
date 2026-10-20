@@ -21,7 +21,7 @@ export const Hero: React.FC = () => {
     <section
       id="hero"
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden border-b border-line-soft"
+      className="relative isolate overflow-hidden border-b border-brass-line"
     >
       {/* Soft wash behind the headline. */}
       <div
@@ -31,7 +31,7 @@ export const Hero: React.FC = () => {
 
       <div className="page-container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-12 lg:gap-12 lg:py-20">
         <div className="lg:col-span-7">
-          <p className="eyebrow mb-5 text-gold">{event.host} presents</p>
+          <p className="eyebrow mb-5 text-brass-text">{event.host} presents</p>
 
           <h1 id="hero-title" className="font-display uppercase">
             <span
@@ -56,15 +56,15 @@ export const Hero: React.FC = () => {
             {FACTS.map(({ icon: Icon, label }) => (
               <li
                 key={label}
-                className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-semibold"
+                className="inline-flex items-center gap-2 rounded-full border border-brass px-4 py-2 text-sm font-semibold"
               >
-                <Icon className="h-4 w-4 text-gold" aria-hidden="true" />
+                <Icon className="h-4 w-4 text-brass-text" aria-hidden="true" />
                 {label}
               </li>
             ))}
           </ul>
           <p className="mt-4 flex items-start gap-2 text-sm text-muted">
-            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brass-text" aria-hidden="true" />
             <span>{event.venue}</span>
           </p>
 
@@ -80,7 +80,7 @@ export const Hero: React.FC = () => {
         </div>
 
         <figure className="relative mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:col-span-5 lg:mr-0 lg:max-w-[400px] lg:justify-self-end">
-          <div className="relative aspect-[9/16] overflow-hidden rounded-card border border-line bg-surface shadow-xl">
+          <div className="relative aspect-[9/16] overflow-hidden rounded-card border border-brass bg-surface shadow-xl">
             {reduceMotion ? (
               <img
                 src={IMAGES.heroPoster}

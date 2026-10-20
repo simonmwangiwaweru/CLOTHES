@@ -17,12 +17,12 @@ const NAV_LINKS = [
 ];
 
 export const ContactFooter: React.FC = () => (
-  <footer id="contact" className="mt-20 border-t border-line bg-surface/50">
+  <footer id="contact" className="mt-20 border-t border-brass bg-surface/50">
     <div className="page-container py-16 sm:py-20">
-      <div className="grid grid-cols-1 gap-12 border-b border-line-soft pb-16 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-12 border-b border-brass-line pb-16 lg:grid-cols-12">
         <div className="flex flex-col justify-between gap-6 lg:col-span-7">
           <div>
-            <span className="eyebrow text-gold">Contact</span>
+            <span className="eyebrow text-brass-text">Contact</span>
             <h2 className="mt-2 font-display text-6xl uppercase leading-none tracking-tight sm:text-7xl md:text-8xl">
               Let’s talk
             </h2>
@@ -42,7 +42,7 @@ export const ContactFooter: React.FC = () => (
 
         <div className="flex flex-col gap-6 lg:col-span-5">
           <dl>
-            <dt className="label flex items-center gap-1.5 text-gold">
+            <dt className="label flex items-center gap-1.5 text-brass-text">
               <MapPin className="h-3.5 w-3.5" aria-hidden="true" /> Location
             </dt>
             <dd className="mt-2 font-display text-4xl uppercase leading-none tracking-wide">
@@ -52,7 +52,7 @@ export const ContactFooter: React.FC = () => (
 
           <figure className="panel p-5">
             <blockquote className="text-base leading-relaxed text-ink-soft">“{event.verse.text}”</blockquote>
-            <figcaption className="mt-2 text-xs font-semibold uppercase tracking-widest text-gold">
+            <figcaption className="mt-2 text-xs font-semibold uppercase tracking-widest text-brass-text">
               {event.verse.reference}
             </figcaption>
           </figure>

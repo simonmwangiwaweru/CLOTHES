@@ -193,10 +193,10 @@ export const ProductModal: React.FC = () => {
 
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line-soft pt-3 text-xs text-muted">
               <span className="flex items-center gap-1.5">
-                <Heart className="h-3.5 w-3.5 text-gold" aria-hidden="true" /> Funds Worship Night 2026
+                <Heart className="h-3.5 w-3.5 text-brass-text" aria-hidden="true" /> Funds Worship Night 2026
               </span>
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-gold" aria-hidden="true" /> Natural fabrics
+                <ShieldCheck className="h-3.5 w-3.5 text-brass-text" aria-hidden="true" /> Natural fabrics
               </span>
             </div>
           </div>

@@ -23,6 +23,11 @@
   --color-whatsapp-strong: #1FB858;
   --color-danger: #B3261E;
 
+  /* Brass gold, for structure and brand moments. Small text uses brass-text for contrast (>4.5:1). */
+  --color-brass: #B08A2E;
+  --color-brass-text: #7E5B0F;
+  --color-brass-line: rgb(176 138 46 / 0.45);
+
   --font-display: "Bebas Neue", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
   --font-sans: "Archivo", system-ui, sans-serif;
 
@@ -75,7 +80,7 @@
 
   /* One visible focus treatment for every interactive element. */
   :focus-visible {
-    outline: 2px solid var(--color-gold-strong);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
   }
 
@@ -145,18 +150,18 @@
     @apply bg-whatsapp text-ink hover:bg-whatsapp-strong;
   }
   .btn-outline {
-    @apply border border-gold text-gold hover:bg-gold hover:text-on-accent;
+    @apply border border-brass text-ink hover:border-ink hover:bg-ink hover:text-bg;
   }
   .btn-sm {
     @apply px-4 py-2;
   }
   .icon-btn {
-    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-gold hover:bg-gold hover:text-on-accent;
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brass text-ink transition-colors hover:border-gold hover:bg-gold hover:text-on-accent;
   }
 
   /* ---------- Chips (filters, sizes) ---------- */
   .chip {
-    @apply inline-flex items-center justify-center whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-surface;
+    @apply inline-flex items-center justify-center whitespace-nowrap rounded-full border border-brass px-3.5 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-surface;
   }
   .chip[aria-pressed="true"] {
     @apply border-gold bg-gold text-on-accent hover:bg-gold;
@@ -164,7 +169,7 @@
 
   /* ---------- Form fields ---------- */
   .field {
-    @apply w-full rounded-full border border-line bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted;
+    @apply w-full rounded-full border border-brass bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted;
   }
   .field[aria-invalid="true"] {
     @apply border-danger;
@@ -178,7 +183,7 @@
 
   /* ---------- Quantity stepper ---------- */
   .stepper {
-    @apply inline-flex items-center rounded-full border border-line bg-bg px-1;
+    @apply inline-flex items-center rounded-full border border-brass bg-bg px-1;
   }
   .stepper button {
     @apply inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-surface;
@@ -204,7 +209,10 @@
 
   /* ---------- Gold-metal display type (the poster's lettering) ---------- */
   .text-gold-metal {
-    color: var(--color-ink);
+    background-image: linear-gradient(180deg, #C79A33 0%, #A67C1F 50%, #6F4E0A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .rule-gold {
     height: 1px;

@@ -40,10 +40,10 @@ export const AboutUs: React.FC = () => (
           {event.dateLabel}. We sell it here, and what you spend helps put the night on.
         </p>
 
-        <ul className="mt-10 divide-y divide-line-soft border-y border-line-soft">
+        <ul className="mt-10 divide-y divide-brass-line border-y border-brass-line">
           {POINTS.map((point) => (
             <li key={point.title} className="grid gap-1 py-5 sm:grid-cols-12 sm:gap-6">
-              <h3 className="font-display text-2xl uppercase leading-none tracking-wide text-gold sm:col-span-5">
+              <h3 className="font-display text-2xl uppercase leading-none tracking-wide text-brass-text sm:col-span-5">
                 {point.title}
               </h3>
               <p className="text-sm leading-relaxed text-muted sm:col-span-7">{point.body}</p>
