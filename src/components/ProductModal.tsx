@@ -104,15 +104,7 @@ export const ProductModal: React.FC = () => {
                 <h2 id="product-title" className="font-display text-3xl uppercase leading-none tracking-wide sm:text-4xl">
                   {product.name}
                 </h2>
-                <p className="flex shrink-0 items-baseline gap-2">
-                  <span className="text-2xl font-bold tabular-nums sm:text-3xl">{formatPrice(product.price)}</span>
-                  {product.compareAtPrice && (
-                    <s className="text-sm tabular-nums text-muted">
-                      <span className="sr-only">Was </span>
-                      {formatPrice(product.compareAtPrice)}
-                    </s>
-                  )}
-                </p>
+                <p className="shrink-0 text-2xl font-bold tabular-nums sm:text-3xl">{formatPrice(product.price)}</p>
               </div>
             </div>
 

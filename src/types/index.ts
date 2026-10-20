@@ -18,7 +18,6 @@ export interface Product {
   name: string;
   category: ProductCategory;
   price: number; // in KES
-  compareAtPrice?: number; // optional original price for discount display
   images: string[];
   sizes: string[]; // e.g. ['S', 'M', 'L', 'XL', 'XXL'] or ['Standard']
   colors: ProductColor[];

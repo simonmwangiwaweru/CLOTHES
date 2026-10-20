@@ -70,18 +70,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, cardVariant =
               {product.name}
             </button>
           </h3>
-          <p className="flex shrink-0 items-baseline gap-1.5 text-base font-bold tabular-nums">
-            {product.compareAtPrice && (
-              <s className="text-xs font-normal text-muted">
-                <span className="sr-only">Was </span>
-                {formatPrice(product.compareAtPrice)}
-              </s>
-            )}
-            <span>
-              <span className="sr-only">Now </span>
-              {formatPrice(product.price)}
-            </span>
-          </p>
+          <p className="shrink-0 text-base font-bold tabular-nums">{formatPrice(product.price)}</p>
         </div>
 
         <div className="mt-1 flex items-center justify-between text-xs text-muted">

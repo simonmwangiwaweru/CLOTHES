@@ -79,7 +79,6 @@ To change pricing, add new products, or update sizes:
   name: 'Heavyweight Loopback Hoodie',
   category: 'Hoodies',
   price: 2500, // Price in KES
-  compareAtPrice: 3200,
   images: [IMAGES.hoodieBrown], // add photos in src/data/images.ts; leave [] to show a placeholder
   sizes: ['S', 'M', 'L', 'XL', 'XXL'],
   colors: [

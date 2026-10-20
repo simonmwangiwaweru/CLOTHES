@@ -8,7 +8,6 @@ export const PRODUCTS: Product[] = [
     name: 'Hoodie',
     category: 'Hoodies',
     price: 2500,
-    compareAtPrice: 3200,
     images: [
       IMAGES.hoodieBrown,
       IMAGES.zipHoodieTree,
@@ -38,7 +37,6 @@ export const PRODUCTS: Product[] = [
     name: 'Sweatshirts',
     category: 'Sweatshirts',
     price: 2000,
-    compareAtPrice: 2600,
     images: [
       IMAGES.hero,
     ],
@@ -66,7 +64,6 @@ export const PRODUCTS: Product[] = [
     name: 'Polo Shirts',
     category: 'Polo Shirts',
     price: 1200,
-    compareAtPrice: 1600,
     images: [],
     sizes: ['S', 'M', 'L', 'XL'],
     colors: [
@@ -92,7 +89,6 @@ export const PRODUCTS: Product[] = [
     name: 'Round Neck T-Shirts',
     category: 'T-Shirts',
     price: 1000,
-    compareAtPrice: 1400,
     images: [],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     colors: [
@@ -118,7 +114,6 @@ export const PRODUCTS: Product[] = [
     name: 'Caps',
     category: 'Caps',
     price: 1200,
-    compareAtPrice: 1500,
     images: [
       IMAGES.hoodieBrown,
       IMAGES.zipHoodieTree,
@@ -147,7 +142,6 @@ export const PRODUCTS: Product[] = [
     name: 'Jute Bags A4',
     category: 'Bags',
     price: 800,
-    compareAtPrice: 1000,
     images: [
       IMAGES.toteOrange,
       IMAGES.zipHoodieSteps,
@@ -175,7 +169,6 @@ export const PRODUCTS: Product[] = [
     name: 'Jute Bags A3',
     category: 'Bags',
     price: 1000,
-    compareAtPrice: 1300,
     images: [
       IMAGES.toteOrange,
       IMAGES.zipHoodieTree,
@@ -203,7 +196,6 @@ export const PRODUCTS: Product[] = [
     name: 'Wrist Bands',
     category: 'Accessories',
     price: 100,
-    compareAtPrice: 150,
     images: [],
     sizes: ['Standard Adult (202mm)'],
     colors: [
