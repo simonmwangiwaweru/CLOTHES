@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { ArrowRight, CalendarDays, Clock, MapPin, Pause, Play, Ticket } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, CalendarDays, Clock, MapPin, Ticket } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { IMAGES } from '../data/images';
 
@@ -12,24 +12,10 @@ const FACTS = [
 ];
 
 export const Hero: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(true);
   // People who ask their system for less motion get a still photo, not a moving loop.
   const [reduceMotion] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
-
-  const togglePlayback = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      void video.play();
-      setPlaying(true);
-    } else {
-      video.pause();
-      setPlaying(false);
-    }
-  };
 
   return (
     <section
@@ -102,28 +88,18 @@ export const Hero: React.FC = () => {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <>
-                <video
-                  ref={videoRef}
-                  className="h-full w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster={IMAGES.heroPoster}
-                  aria-label="Models wearing UNDIGNIFIED hoodies, sweatshirts and jute bags outside RGC Ruiru"
-                >
-                  <source src={IMAGES.heroVideo} type="video/mp4" />
-                </video>
-                <button
-                  onClick={togglePlayback}
-                  className="icon-btn absolute bottom-3 right-3 border-white/50 bg-black/60 text-white backdrop-blur-xs hover:border-white hover:bg-white hover:text-black"
-                  aria-label={playing ? 'Pause video' : 'Play video'}
-                >
-                  {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                </button>
-              </>
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={IMAGES.heroPoster}
+                aria-label="Models wearing UNDIGNIFIED hoodies, sweatshirts and jute bags outside RGC Ruiru"
+              >
+                <source src={IMAGES.heroVideo} type="video/mp4" />
+              </video>
             )}
           </div>
         </figure>

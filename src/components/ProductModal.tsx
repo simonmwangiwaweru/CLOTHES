@@ -77,7 +77,7 @@ export const ProductModal: React.FC = () => {
             </div>
 
             {product.images.length > 1 && (
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 {product.images.map((img, idx) => (
                   <button
                     key={img}
@@ -120,7 +120,10 @@ export const ProductModal: React.FC = () => {
                   return (
                     <button
                       key={color.name}
-                      onClick={() => setSelectedColor(color)}
+                      onClick={() => {
+                        setSelectedColor(color);
+                        if (color.imageIndex !== undefined) setActiveImageIndex(color.imageIndex);
+                      }}
                       aria-label={color.name}
                       aria-pressed={selected}
                       className={`flex h-8 w-8 items-center justify-center rounded-full border border-line transition-transform ${

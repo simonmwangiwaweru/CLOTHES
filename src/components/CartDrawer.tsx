@@ -119,7 +119,7 @@ export const CartDrawer: React.FC = () => {
                   {items.map((item) => (
                     <li key={item.id} className="panel flex gap-4 p-3">
                       <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line-soft bg-surface">
-                        <ProductImage src={item.product.images[0]} alt={item.product.name} caption={false} />
+                        <ProductImage src={item.product.images[item.selectedColor.imageIndex ?? 0]} alt={item.product.name} caption={false} />
                       </div>
 
                       <div className="flex flex-1 flex-col justify-between">

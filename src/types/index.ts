@@ -10,6 +10,8 @@ export type ProductCategory =
 export interface ProductColor {
   name: string;
   hex: string;
+  /** Index into the product's images of the photo that shows this colour. */
+  imageIndex?: number;
 }
 
 export interface Product {
