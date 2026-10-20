@@ -5,7 +5,7 @@ import { PaymentDetails } from './PaymentDetails';
 
 const { payment } = SITE_CONFIG;
 
-// A real sequence: each step needs the one before it, so these are numbered.
+// A real sequence: the second step needs the first, so these are numbered.
 const STEPS = [
   {
     title: 'Send your order',
@@ -14,10 +14,6 @@ const STEPS = [
   {
     title: 'Pay by Paybill',
     body: `Pay to Paybill ${payment.paybill}, account ${payment.accountNumber}. The account title is ${payment.accountTitle}.`,
-  },
-  {
-    title: 'Confirm on WhatsApp',
-    body: 'Reply with your payment confirmation. We then confirm your order.',
   },
 ];
 
