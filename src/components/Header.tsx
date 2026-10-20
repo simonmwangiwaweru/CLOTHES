@@ -79,7 +79,7 @@ export const Header: React.FC = () => {
 
             <nav
               aria-label="Shop by product"
-              className="no-scrollbar hidden max-w-[680px] items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg/70 px-3 py-1 backdrop-blur-xs lg:flex xl:max-w-none"
+              className="no-scrollbar hidden min-w-0 max-w-[680px] items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg/70 px-3 py-1 backdrop-blur-xs lg:flex xl:max-w-none"
             >
               {NAV_PRODUCTS.map((item) => (
                 <button
@@ -93,6 +93,9 @@ export const Header: React.FC = () => {
             </nav>
 
             <div className="flex shrink-0 items-center gap-2">
+              <a href="#partner" className="btn-primary btn-sm hidden xl:inline-flex">
+                Partner with us
+              </a>
               {searchOpen ? (
                 <form
                   role="search"
@@ -130,14 +133,14 @@ export const Header: React.FC = () => {
 
               <button
                 onClick={openCart}
-                className="icon-btn relative border-ink bg-ink text-bg hover:bg-ink-soft"
+                className="icon-btn relative border-gold bg-gold text-on-accent hover:bg-gold-strong"
                 aria-label={`Open bag, ${totalItems} ${totalItems === 1 ? 'item' : 'items'}`}
               >
                 <ShoppingBag className="h-4 w-4" />
                 {totalItems > 0 && (
                   <span
                     aria-hidden="true"
-                    className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-whatsapp px-1 text-xs font-bold leading-none text-ink"
+                    className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-whatsapp px-1 text-xs font-bold leading-none text-on-accent"
                   >
                     {totalItems}
                   </span>
@@ -174,6 +177,13 @@ export const Header: React.FC = () => {
           </div>
 
           <nav aria-label="Shop by product" className="my-auto flex flex-col gap-1 py-6">
+            <a
+              href="#partner"
+              onClick={() => setMobileMenuOpen(false)}
+              className="btn-primary mb-5 self-start"
+            >
+              Partner with us
+            </a>
             <span className="eyebrow mb-2">Shop by piece</span>
             {NAV_PRODUCTS.map((item) => (
               <button

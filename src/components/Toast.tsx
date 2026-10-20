@@ -19,7 +19,7 @@ export const ToastContainer: React.FC = () => {
         >
           <div
             className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
-              toast.type === 'whatsapp' ? 'bg-whatsapp text-ink' : 'bg-ink text-bg'
+              toast.type === 'whatsapp' ? 'bg-whatsapp text-on-accent' : 'bg-gold text-on-accent'
             }`}
           >
             {toast.type === 'whatsapp' ? (

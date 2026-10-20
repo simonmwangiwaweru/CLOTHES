@@ -63,7 +63,7 @@ export const Collections: React.FC = () => {
       <SectionHeading
         id="collections-title"
         title="Collections"
-        description="Heavyweight pieces in natural fabrics. Pick a category to browse."
+        description="Every piece raises funds for Worship Night 2026. Pick a category to browse."
       />
 
       <div className="mb-16 grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
@@ -75,7 +75,7 @@ export const Collections: React.FC = () => {
               onClick={() => handleTileClick(cat.name)}
               aria-pressed={selected}
               className={`group card rounded-card p-3 text-left ${
-                selected ? 'border-ink bg-ink text-bg' : 'card-interactive'
+                selected ? 'border-gold bg-gold text-on-accent' : 'card-interactive'
               }`}
             >
               <div className="mb-3 aspect-square overflow-hidden rounded-inner bg-surface">
@@ -88,7 +88,7 @@ export const Collections: React.FC = () => {
               </div>
               <div className="flex items-center justify-between gap-2 pt-1">
                 <span className="font-display text-xl uppercase leading-none tracking-wide">{cat.name}</span>
-                <span className={`text-xs font-medium tabular-nums ${selected ? 'text-bg/70' : 'text-muted'}`}>
+                <span className={`text-xs font-medium tabular-nums ${selected ? 'text-on-accent/70' : 'text-muted'}`}>
                   {cat.count}
                 </span>
               </div>
@@ -155,9 +155,15 @@ export const Collections: React.FC = () => {
       </p>
 
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} anchor />
+        // Re-keying on the filters replays the entrance, so changing category or sort feels like a transition.
+        <div
+          key={`${activeCategory}|${sortBy}|${searchQuery}`}
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {filteredProducts.map((product, index) => (
+            <div key={product.id} className="stagger-item" style={{ '--i': Math.min(index, 8) } as React.CSSProperties}>
+              <ProductCard product={product} anchor />
+            </div>
           ))}
         </div>
       ) : (

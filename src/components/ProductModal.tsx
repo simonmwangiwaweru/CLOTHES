@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Minus, Plus, ShoppingBag, MessageCircle, Check, ShieldCheck, Truck } from 'lucide-react';
+import { X, Minus, Plus, ShoppingBag, MessageCircle, Check, ShieldCheck, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../lib/format';
 import { buildQuickOrderMessage, getWhatsAppUrl, openWhatsApp } from '../lib/whatsapp';
@@ -50,7 +50,7 @@ export const ProductModal: React.FC = () => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-ink/60 p-4 backdrop-blur-xs sm:p-6"
+      className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/75 p-4 backdrop-blur-xs sm:p-6"
       onClick={closeProductModal}
     >
       <div
@@ -85,7 +85,7 @@ export const ProductModal: React.FC = () => {
                     aria-label={`Show photo ${idx + 1} of ${product.images.length}`}
                     aria-pressed={activeImageIndex === idx}
                     className={`h-16 w-16 overflow-hidden rounded-xl border transition-opacity ${
-                      activeImageIndex === idx ? 'border-ink ring-1 ring-ink' : 'border-line-soft opacity-60 hover:opacity-100'
+                      activeImageIndex === idx ? 'border-gold ring-1 ring-gold' : 'border-line-soft opacity-60 hover:opacity-100'
                     }`}
                   >
                     <img src={img} alt="" className="h-full w-full object-cover" />
@@ -132,7 +132,7 @@ export const ProductModal: React.FC = () => {
                       aria-label={color.name}
                       aria-pressed={selected}
                       className={`flex h-8 w-8 items-center justify-center rounded-full border border-line transition-transform ${
-                        selected ? 'ring-2 ring-ink ring-offset-2 ring-offset-bg' : 'hover:scale-110'
+                        selected ? 'ring-2 ring-gold ring-offset-2 ring-offset-bg' : 'hover:scale-110'
                       }`}
                       style={{ backgroundColor: color.hex }}
                     >
@@ -198,10 +198,10 @@ export const ProductModal: React.FC = () => {
 
             <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line-soft pt-3 text-xs text-muted">
               <span className="flex items-center gap-1.5">
-                <Truck className="h-3.5 w-3.5 text-ink" aria-hidden="true" /> Same-day delivery in Nairobi
+                <Heart className="h-3.5 w-3.5 text-gold" aria-hidden="true" /> Funds Worship Night 2026
               </span>
               <span className="flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-ink" aria-hidden="true" /> Natural fabrics
+                <ShieldCheck className="h-3.5 w-3.5 text-gold" aria-hidden="true" /> Natural fabrics
               </span>
             </div>
           </div>

@@ -6,16 +6,22 @@
  * and the shared classes in @layer components below. No raw hex in components.
  */
 @theme {
-  --color-bg: #F2EEE9;
-  --color-surface: #EBE5DE;
-  --color-ink: #0A0A0A;
-  --color-ink-soft: #2A2927;
-  --color-muted: #6B645D;
-  --color-line: rgb(26 26 26 / 0.7);
-  --color-line-soft: rgb(26 26 26 / 0.3);
+  /* Black + gold, taken from the Worship Night 2026 posters. */
+  --color-bg: #0B0907;
+  --color-surface: #16120D;
+  --color-ink: #F4EAD5;
+  --color-ink-soft: #E2D2AE;
+  --color-muted: #A99C82;
+  --color-line: rgb(224 176 76 / 0.5);
+  --color-line-soft: rgb(224 176 76 / 0.22);
+  --color-gold: #E0B04C;
+  --color-gold-strong: #F0C766;
+  --color-gold-deep: #9A6B1C;
+  --color-ember: #E8641B;
+  --color-on-accent: #0B0907;
   --color-whatsapp: #25D366;
-  --color-whatsapp-strong: #1FB858;
-  --color-danger: #B3261E;
+  --color-whatsapp-strong: #3DE07C;
+  --color-danger: #FF7A6B;
 
   --font-display: "Bebas Neue", "Arial Narrow", "Roboto Condensed", Impact, sans-serif;
   --font-sans: "Archivo", system-ui, sans-serif;
@@ -63,13 +69,13 @@
   }
 
   ::selection {
-    background: var(--color-ink);
-    color: var(--color-bg);
+    background: var(--color-gold);
+    color: var(--color-on-accent);
   }
 
   /* One visible focus treatment for every interactive element. */
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-gold-strong);
     outline-offset: 3px;
   }
 
@@ -116,7 +122,7 @@
 
   /* ---------- Surfaces ---------- */
   .card {
-    @apply rounded-card border border-line bg-surface/40 transition-colors duration-300;
+    @apply rounded-card border border-line bg-surface/70 transition-colors duration-300;
   }
   .card-interactive:hover {
     @apply bg-surface;
@@ -133,19 +139,19 @@
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors duration-200 disabled:cursor-not-allowed;
   }
   .btn-primary {
-    @apply bg-ink text-bg hover:bg-ink-soft;
+    @apply bg-gold text-on-accent hover:bg-gold-strong;
   }
   .btn-whatsapp {
-    @apply bg-whatsapp text-ink hover:bg-whatsapp-strong;
+    @apply bg-whatsapp text-on-accent hover:bg-whatsapp-strong;
   }
   .btn-outline {
-    @apply border border-line text-ink hover:bg-ink hover:text-bg;
+    @apply border border-gold text-gold hover:bg-gold hover:text-on-accent;
   }
   .btn-sm {
     @apply px-4 py-2;
   }
   .icon-btn {
-    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors hover:bg-ink hover:text-bg;
+    @apply inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-gold hover:bg-gold hover:text-on-accent;
   }
 
   /* ---------- Chips (filters, sizes) ---------- */
@@ -153,12 +159,12 @@
     @apply inline-flex items-center justify-center whitespace-nowrap rounded-full border border-line px-3.5 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-surface;
   }
   .chip[aria-pressed="true"] {
-    @apply border-ink bg-ink text-bg hover:bg-ink;
+    @apply border-gold bg-gold text-on-accent hover:bg-gold;
   }
 
   /* ---------- Form fields ---------- */
   .field {
-    @apply w-full rounded-full border border-line bg-white px-4 py-2.5 text-sm text-ink placeholder:text-muted;
+    @apply w-full rounded-full border border-line bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-muted;
   }
   .field[aria-invalid="true"] {
     @apply border-danger;
@@ -192,7 +198,42 @@
     animation: flash-highlight 1.6s ease-out;
   }
   @keyframes flash-highlight {
-    0%, 60% { outline: 2px solid var(--color-ink); outline-offset: 4px; }
+    0%, 60% { outline: 2px solid var(--color-gold-strong); outline-offset: 4px; }
     100% { outline: 2px solid transparent; outline-offset: 4px; }
+  }
+
+  /* ---------- Gold-metal display type (the poster's lettering) ---------- */
+  .text-gold-metal {
+    background-image: linear-gradient(180deg, #FFE9A8 0%, #E0B04C 48%, #9A6B1C 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .rule-gold {
+    height: 1px;
+    background-image: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Staggered entrance for grids that re-render when filters change. */
+  .stagger-item {
+    animation: rise-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 55ms);
   }
 }

@@ -41,7 +41,5 @@ export interface CartItem {
 export interface CheckoutFormState {
   fullName: string;
   phone: string;
-  deliveryArea: string;
-  deliveryMethod: 'Doorstep Delivery' | 'Pickup (Nairobi CBD)' | 'Countrywide Parcel Transit';
   orderNote: string;
 }

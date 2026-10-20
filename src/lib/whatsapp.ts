@@ -13,7 +13,7 @@ export function buildWhatsAppOrderMessage(
 ): string {
   const lines: string[] = [];
 
-  lines.push('Hello UNDIGNIFIED, I would like to place an order.');
+  lines.push('Hello UNDIGNIFIED, I would like to order from the Worship Night 2026 collection.');
   lines.push('');
   lines.push(`ORDER #UND-${orderCode}`);
 
@@ -25,14 +25,12 @@ export function buildWhatsAppOrderMessage(
   });
 
   lines.push(`Subtotal: ${formatPrice(subtotal)}`);
-  lines.push(`Delivery: ${form.deliveryMethod}`);
   lines.push('');
   lines.push(`Name: ${form.fullName.trim()}`);
   lines.push(`Phone: ${form.phone.trim()}`);
-  lines.push(`Address: ${form.deliveryArea.trim()}`);
   lines.push(`Note: ${form.orderNote.trim() ? form.orderNote.trim() : 'None'}`);
   lines.push('');
-  lines.push('Please confirm availability and payment details.');
+  lines.push('Please confirm availability, how I will collect my order, and payment details.');
 
   return lines.join('\n');
 }
@@ -49,13 +47,13 @@ export function buildQuickOrderMessage(
   const orderCode = generateOrderCode();
   const lineTotal = product.price * quantity;
   const lines: string[] = [
-    'Hello UNDIGNIFIED, I would like to place a quick order.',
+    'Hello UNDIGNIFIED, I would like to order from the Worship Night 2026 collection.',
     '',
     `ORDER #UND-${orderCode}`,
     `1. ${product.name} | Size ${size} | Color ${color} | Qty ${quantity} | ${formatPrice(lineTotal)}`,
     `Subtotal: ${formatPrice(lineTotal)}`,
     '',
-    'Please confirm availability, delivery options, and payment details.',
+    'Please confirm availability, how I will collect my order, and payment details.',
   ];
 
   return lines.join('\n');

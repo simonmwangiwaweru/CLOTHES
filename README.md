@@ -1,19 +1,21 @@
-# UNDIGNIFIED | Streetwear Storefront
+# UNDIGNIFIED | Worship Night 2026
 
-> "Wear it loud. Wear it real."
+> "I will become even more undignified than this." 2 Samuel 6:22
 
-A high-contrast, editorial e-commerce storefront for streetwear brand **UNDIGNIFIED**. Engineered with an exclusive WhatsApp checkout flow that directly formats customer carts into structured WhatsApp messages without third-party payment gateways.
+The fundraising storefront for **Undignified Worship Night 2026**, hosted by Redeemed Gospel Church Ruiru on 4th December 2026 (from 6:00 PM, free entry). Supporters buy UNDIGNIFIED clothing to fund the night, or give directly by Paybill. Orders are sent to WhatsApp, with no payment gateway.
 
 ---
 
 ## Features
 
-- **Editorial visual direction**: warm bone canvas, Bebas Neue display type over Archivo body text, 1px outlined cards, and a hero headline that sits behind the photo. Every colour, radius and font is a token in `src/index.css`.
-- **WhatsApp checkout**: shoppers fill their bag, enter delivery details, and send a pre-formatted order message to your WhatsApp number (`https://wa.me/...`). No payment gateway.
-- **Catalog**: Hoodie, Sweatshirts, Polo Shirts, Round Neck T-Shirts, Caps, Jute Bags A4 and A3, Wrist Bands, priced in KES in `src/data/products.ts`.
-- **Product modal**: photo gallery, colour, size and quantity, plus a one-tap "Order on WhatsApp".
-- **Bag drawer**: saved in `localStorage`, validated delivery form, and prices re-read from the catalog on every visit.
-- **Accessible**: keyboard-operable cards, dialogs that trap focus and return it on close, labelled form fields, visible focus rings, and reduced-motion support.
+- **Event hero**: gold-metal headline, event facts, and a muted looping video (pause button; reduced-motion visitors get a still photo).
+- **Partner with us**: the event poster plus Family Bank Paybill details with copy buttons.
+- **About us**: why the clothing line exists, in five short points.
+- **Shop**: Hoodie, Sweatshirts, Polo Shirts, Round Neck T-Shirts, Caps, Jute Bags A4 and A3, Wrist Bands (KES), with filters, sorting, search, and animated transitions between categories.
+- **WhatsApp checkout**: shoppers fill their bag, enter name and phone, and send a pre-formatted order. We confirm availability and collection on WhatsApp, then they pay by Paybill. There is no delivery.
+- **How to pay**: three steps plus the payment details.
+- **Design system**: black and gold tokens in `src/index.css`; Bebas Neue and Archivo are self-hosted.
+- **Accessible**: keyboard-operable cards, dialogs that trap focus, labelled form fields, visible focus rings, reduced-motion support.
 
 ---
 
@@ -96,10 +98,11 @@ To change pricing, add new products, or update sizes:
 ### How to Add or Change Photos
 Drop the file in `src/assets/images/`, import it in `src/data/images.ts`, then reference it from `src/data/products.ts`. Products with `images: []` show a "Photo coming soon" tile. Currently missing photos: Polo Shirts, Round Neck T-Shirts, Wrist Bands.
 
-### How to Edit Site Copy & Delivery Details
-Edit `src/config/site.ts`:
-- Brand slogan, tagline, and location
-- Nairobi metro, countrywide courier, and M-Pesa payment cards
+### How to Edit Event Details and Payment Info
+Everything about the event (date, time, venue, verse) and the payment details (bank, Paybill, account number and title) lives in `src/config/site.ts`. Change it there and every section updates.
+
+### How to Change the Hero Video
+Replace `src/assets/video/hero-loop.mp4` (portrait, muted, a few MB) and its still frame `src/assets/video/hero-poster.jpg`.
 
 ---
 

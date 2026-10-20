@@ -6,20 +6,14 @@ import { buildWhatsAppOrderMessage, getWhatsAppUrl, openWhatsApp } from '../lib/
 import { useDialog } from '../lib/useDialog';
 import { ProductImage } from './ProductImage';
 import { CheckoutFormState } from '../types';
+import { SITE_CONFIG } from '../config/site';
 
-type FormErrors = Partial<Record<'fullName' | 'phone' | 'deliveryArea', string>>;
-
-const DELIVERY_METHODS: { value: CheckoutFormState['deliveryMethod']; label: string }[] = [
-  { value: 'Doorstep Delivery', label: 'Doorstep delivery (Nairobi)' },
-  { value: 'Pickup (Nairobi CBD)', label: 'Pickup (Nairobi CBD)' },
-  { value: 'Countrywide Parcel Transit', label: 'Countrywide courier (Fargo / G4S)' },
-];
+type FormErrors = Partial<Record<'fullName' | 'phone', string>>;
 
 function validate(form: CheckoutFormState): FormErrors {
   const errors: FormErrors = {};
   if (form.fullName.trim().length < 2) errors.fullName = 'Enter your full name.';
   if (form.phone.replace(/\D/g, '').length < 9) errors.phone = 'Enter a phone number with at least 9 digits.';
-  if (form.deliveryArea.trim().length < 3) errors.deliveryArea = 'Enter your estate, street or pickup location.';
   return errors;
 }
 
@@ -31,8 +25,6 @@ export const CartDrawer: React.FC = () => {
   const [form, setForm] = useState<CheckoutFormState>({
     fullName: '',
     phone: '',
-    deliveryArea: '',
-    deliveryMethod: 'Doorstep Delivery',
     orderNote: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -75,7 +67,7 @@ export const CartDrawer: React.FC = () => {
     );
 
   return (
-    <div className="fixed inset-0 z-50 flex animate-fade-in justify-end bg-ink/60 backdrop-blur-xs" onClick={closeCart}>
+    <div className="fixed inset-0 z-50 flex animate-fade-in justify-end bg-black/75 backdrop-blur-xs" onClick={closeCart}>
       <div
         ref={drawerRef}
         role="dialog"
@@ -176,10 +168,10 @@ export const CartDrawer: React.FC = () => {
                 </ul>
 
                 <fieldset className="space-y-4 border-t border-line-soft pt-4">
-                  <legend className="sr-only">Delivery and contact details</legend>
+                  <legend className="sr-only">Your details</legend>
                   <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="heading-card text-xl">Delivery details</h3>
-                    <span className="text-xs text-muted">All fields required except the note</span>
+                    <h3 className="heading-card text-xl">Your details</h3>
+                    <span className="text-xs text-muted">Name and phone are required</span>
                   </div>
 
                   <div>
@@ -216,47 +208,13 @@ export const CartDrawer: React.FC = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="checkout-deliveryArea" className="mb-1 block text-sm font-medium">
-                      Delivery address or pickup location
-                    </label>
-                    <input
-                      {...fieldProps('deliveryArea')}
-                      type="text"
-                      autoComplete="street-address"
-                      placeholder="Kilimani, Wood Avenue, Apt 4B"
-                      value={form.deliveryArea}
-                      onChange={(e) => setField('deliveryArea', e.target.value)}
-                      className="field"
-                    />
-                    {renderError('deliveryArea')}
-                  </div>
-
-                  <div>
-                    <label htmlFor="checkout-deliveryMethod" className="mb-1 block text-sm font-medium">
-                      Delivery method
-                    </label>
-                    <select
-                      id="checkout-deliveryMethod"
-                      value={form.deliveryMethod}
-                      onChange={(e) => setField('deliveryMethod', e.target.value as CheckoutFormState['deliveryMethod'])}
-                      className="field cursor-pointer"
-                    >
-                      {DELIVERY_METHODS.map((m) => (
-                        <option key={m.value} value={m.value}>
-                          {m.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
                     <label htmlFor="checkout-orderNote" className="mb-1 block text-sm font-medium">
                       Note (optional)
                     </label>
                     <textarea
                       id="checkout-orderNote"
                       rows={2}
-                      placeholder="Deliver after 4 PM and call on arrival"
+                      placeholder="Anything we should know about your order"
                       value={form.orderNote}
                       onChange={(e) => setField('orderNote', e.target.value)}
                       className="field"
@@ -274,7 +232,7 @@ export const CartDrawer: React.FC = () => {
                 <span className="text-xl font-bold tabular-nums">{formatPrice(subtotal)}</span>
               </div>
               <p className="text-xs text-muted">
-                You pay nothing now. We confirm the delivery fee and take payment (M-Pesa or cash) on WhatsApp.
+                You pay nothing now. We confirm your order on WhatsApp, then you pay by Paybill {SITE_CONFIG.payment.paybill}.
               </p>
               <button type="submit" className="btn-whatsapp w-full py-3.5">
                 <MessageCircle className="h-4 w-4" />

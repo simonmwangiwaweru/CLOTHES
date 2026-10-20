@@ -7,15 +7,18 @@ import React from 'react';
 import { CartProvider } from './context/CartContext';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { MerchBand } from './components/MerchBand';
 import { AboutUs } from './components/AboutUs';
+import { Partner } from './components/Partner';
 import { PopularGoods } from './components/PopularGoods';
 import { Collections } from './components/Collections';
-import { Delivery } from './components/Delivery';
+import { Payment } from './components/Payment';
 import { ContactFooter } from './components/ContactFooter';
 import { ProductModal } from './components/ProductModal';
 import { CartDrawer } from './components/CartDrawer';
 import { WhatsAppFab } from './components/WhatsAppFab';
 import { ToastContainer } from './components/Toast';
+import { Reveal } from './components/Reveal';
 
 export default function App() {
   return (
@@ -25,13 +28,29 @@ export default function App() {
 
         <main>
           <Hero />
-          <AboutUs />
-          <PopularGoods />
-          <Collections />
-          <Delivery />
+          <Reveal>
+            <MerchBand />
+          </Reveal>
+          <Reveal>
+            <AboutUs />
+          </Reveal>
+          <Reveal>
+            <Partner />
+          </Reveal>
+          <Reveal>
+            <PopularGoods />
+          </Reveal>
+          <Reveal>
+            <Collections />
+          </Reveal>
+          <Reveal>
+            <Payment />
+          </Reveal>
         </main>
 
-        <ContactFooter />
+        <Reveal>
+          <ContactFooter />
+        </Reveal>
 
         <ProductModal />
         <CartDrawer />

@@ -1,49 +1,37 @@
 export const SITE_CONFIG = {
   brand: {
     name: 'UNDIGNIFIED',
-    tagline: 'Wear it loud. Wear it real.',
-    slogan: 'Premium, comfortable, unapologetic streetwear.',
-    tone: 'Oversized fits, natural fabrics, bold attitude, quiet confidence.',
-    established: '2024',
-    location: 'Nairobi, Kenya',
-    email: 'orders@undignified.co.ke',
-    phoneDisplay: '+254 704 514 466',
-    businessHours: 'Mon–Sat, 9:00 AM–7:00 PM EAT',
-    discountNotice: 'Get 30% discount on your first order',
-    firstOrderPromoCode: 'FIRST30',
+    tagline: 'Every piece you wear helps fund the night.',
+    location: 'RGC Ruiru',
   },
-  
+
+  // Details come from the Worship Night 2026 posters.
+  event: {
+    title: 'Worship Night 2026',
+    host: 'Redeemed Gospel Church Ruiru',
+    dateLabel: '4th December 2026',
+    startsAtIso: '2026-12-04T18:00:00+03:00',
+    timeLabel: 'From 6:00 PM',
+    entry: 'Free entry',
+    venue: 'RGC Ruiru, opposite Carrefour, next to the stadium',
+    verse: {
+      text: 'I will become even more undignified than this.',
+      reference: '2 Samuel 6:22',
+    },
+  },
+
+  // Where gifts and order payments go.
+  payment: {
+    bank: 'Family Bank',
+    paybill: '222111',
+    accountNumber: '898089',
+    accountTitle: 'RGC RUIRU PRAISE TEAM',
+  },
+
   // WhatsApp: reads VITE_WHATSAPP_NUMBER, falling back to the store number below.
   whatsapp: {
     // Number format: digits only, international format, no '+' or spaces (e.g., '254704514466')
     number: (import.meta.env.VITE_WHATSAPP_NUMBER || '254704514466').replace(/[^0-9]/g, ''),
-    defaultInquiryMessage: 'Hello UNDIGNIFIED, I have an inquiry about your collection.',
+    defaultInquiryMessage: 'Hello, I have a question about Undignified Worship Night 2026.',
   },
-
-  socials: {
-    instagram: 'https://instagram.com/undignified.ke',
-    tiktok: 'https://tiktok.com/@undignified.ke',
-    twitter: 'https://x.com/undignified_ke',
-  },
-
-  deliveryCards: [
-    {
-      title: 'Nairobi delivery',
-      timeframe: 'Same day or next day',
-      cost: 'KES 350 · free above KES 6,000',
-      description: 'To your door or office anywhere in Nairobi County. We message you on WhatsApp when your order is dispatched.',
-    },
-    {
-      title: 'Countrywide delivery',
-      timeframe: '24–48 hours',
-      cost: 'KES 500 flat rate',
-      description: 'By Fargo Courier, G4S or Easy Coach to Mombasa, Kisumu, Nakuru and the other 47 counties.',
-    },
-    {
-      title: 'Pay on confirmation',
-      timeframe: 'M-Pesa or cash on delivery',
-      cost: 'Nothing upfront',
-      description: 'We confirm your order details on WhatsApp first. Pay to our M-Pesa Buy Goods till only after you agree to them.',
-    },
-  ],
 };

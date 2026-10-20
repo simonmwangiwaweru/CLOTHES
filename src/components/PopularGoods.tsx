@@ -23,7 +23,7 @@ export const PopularGoods: React.FC = () => {
       <SectionHeading
         id="popular-title"
         title="Popular goods"
-        description="What customers are buying most this season."
+        description="The pieces our supporters are buying most."
         aside={
           <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
             <button onClick={() => scroll('left')} className="icon-btn h-9 w-9" aria-label="Scroll popular goods left">
