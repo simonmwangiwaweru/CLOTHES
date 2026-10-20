@@ -37,10 +37,10 @@ export const Hero: React.FC = () => {
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden border-b border-line-soft"
     >
-      {/* Stage-light glow, echoing the poster. */}
+      {/* Soft wash behind the headline. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_50%_at_0%_0%,rgb(232_100_27/0.28),transparent_70%),radial-gradient(50%_45%_at_100%_0%,rgb(232_100_27/0.22),transparent_70%),radial-gradient(70%_50%_at_50%_110%,rgb(224_176_76/0.14),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-surface to-bg"
       />
 
       <div className="page-container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-12 lg:gap-12 lg:py-20">
@@ -94,7 +94,7 @@ export const Hero: React.FC = () => {
         </div>
 
         <figure className="relative mx-auto w-full max-w-[340px] sm:max-w-[380px] lg:col-span-5 lg:mr-0 lg:max-w-[400px] lg:justify-self-end">
-          <div className="relative aspect-[9/16] overflow-hidden rounded-card border border-line bg-surface shadow-[0_0_90px_-25px_rgb(224_176_76/0.5)]">
+          <div className="relative aspect-[9/16] overflow-hidden rounded-card border border-line bg-surface shadow-xl">
             {reduceMotion ? (
               <img
                 src={IMAGES.heroPoster}
@@ -118,7 +118,7 @@ export const Hero: React.FC = () => {
                 </video>
                 <button
                   onClick={togglePlayback}
-                  className="icon-btn absolute bottom-3 right-3 bg-black/60 backdrop-blur-xs"
+                  className="icon-btn absolute bottom-3 right-3 border-white/50 bg-black/60 text-white backdrop-blur-xs hover:border-white hover:bg-white hover:text-black"
                   aria-label={playing ? 'Pause video' : 'Play video'}
                 >
                   {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}

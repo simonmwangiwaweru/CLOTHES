@@ -9,7 +9,7 @@ const { event } = SITE_CONFIG;
 export const Partner: React.FC = () => (
   <section id="partner" aria-labelledby="partner-title" className="page-container section">
     <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
-      <div className="mx-auto w-full max-w-sm overflow-hidden rounded-card border border-line shadow-[0_0_90px_-30px_rgb(224_176_76/0.45)] lg:col-span-4 lg:max-w-none">
+      <div className="mx-auto w-full max-w-sm overflow-hidden rounded-card border border-line shadow-xl lg:col-span-4 lg:max-w-none">
         <img
           src={IMAGES.poster}
           alt={`Undignified ${event.title} poster: ${event.dateLabel}, ${event.timeLabel.toLowerCase()}, ${event.entry.toLowerCase()}, at ${event.venue}`}

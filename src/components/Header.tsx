@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
                 {totalItems > 0 && (
                   <span
                     aria-hidden="true"
-                    className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-whatsapp px-1 text-xs font-bold leading-none text-on-accent"
+                    className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-whatsapp px-1 text-xs font-bold leading-none text-ink"
                   >
                     {totalItems}
                   </span>
