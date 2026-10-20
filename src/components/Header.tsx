@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
       >
         <div className="page-container">
           <div className="flex h-12 items-center justify-between gap-3">
-            <a href="#hero" className="shrink-0 rounded-md" aria-label="UNDIGNIFIED — back to top">
+            <a href="#hero" className="shrink-0 rounded-md" aria-label="UNDIGNIFIED MERCH — back to top">
               <Logo size="sm" />
             </a>
 

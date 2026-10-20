@@ -1,4 +1,4 @@
-# UNDIGNIFIED | Worship Night 2026
+# UNDIGNIFIED MERCH | Worship Night 2026
 
 > "I will become even more undignified than this." 2 Samuel 6:22
 

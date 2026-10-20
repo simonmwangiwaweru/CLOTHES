@@ -70,7 +70,7 @@ export const ContactFooter: React.FC = () => (
           ))}
         </nav>
 
-        <p className="text-xs text-muted">© {new Date().getFullYear()} UNDIGNIFIED. All rights reserved.</p>
+        <p className="text-xs text-muted">© {new Date().getFullYear()} UNDIGNIFIED MERCH. All rights reserved.</p>
       </div>
     </div>
   </footer>

@@ -30,7 +30,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showTex
     <EclipseIcon size={ICON_SIZE[size]} />
     {showText && (
       <span className={`font-display uppercase leading-none tracking-tight text-ink ${TEXT_SIZE[size]}`}>
-        UNDIGNIFIED
+        UNDIGNIFIED MERCH
       </span>
     )}
   </div>

@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
   brand: {
-    name: 'UNDIGNIFIED',
+    name: 'UNDIGNIFIED MERCH',
     tagline: 'Every piece you wear helps fund the night.',
     location: 'RGC Ruiru',
   },

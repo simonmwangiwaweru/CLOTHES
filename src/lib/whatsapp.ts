@@ -13,7 +13,7 @@ export function buildWhatsAppOrderMessage(
 ): string {
   const lines: string[] = [];
 
-  lines.push('Hello UNDIGNIFIED, I would like to order from the Worship Night 2026 collection.');
+  lines.push('Hello UNDIGNIFIED MERCH, I would like to order from the Worship Night 2026 collection.');
   lines.push('');
   lines.push(`ORDER #UND-${orderCode}`);
 
@@ -47,7 +47,7 @@ export function buildQuickOrderMessage(
   const orderCode = generateOrderCode();
   const lineTotal = product.price * quantity;
   const lines: string[] = [
-    'Hello UNDIGNIFIED, I would like to order from the Worship Night 2026 collection.',
+    'Hello UNDIGNIFIED MERCH, I would like to order from the Worship Night 2026 collection.',
     '',
     `ORDER #UND-${orderCode}`,
     `1. ${product.name} | Size ${size} | Color ${color} | Qty ${quantity} | ${formatPrice(lineTotal)}`,
