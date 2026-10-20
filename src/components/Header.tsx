@@ -93,7 +93,7 @@ export const Header: React.FC = () => {
             </nav>
 
             <div className="flex shrink-0 items-center gap-2">
-              <a href="#partner" className="btn-primary btn-sm hidden xl:inline-flex">
+              <a href="#partner" className="btn-primary btn-sm hidden 2xl:inline-flex">
                 Partner with us
               </a>
               {searchOpen ? (
