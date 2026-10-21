@@ -4,11 +4,17 @@ import { PRODUCTS } from '../data/products';
 
 type ToastType = 'default' | 'success' | 'whatsapp';
 
+export interface ToastAction {
+  label: string;
+  href: string;
+}
+
 interface ToastMessage {
   id: string;
   title: string;
   description?: string;
   type?: ToastType;
+  action?: ToastAction;
 }
 
 interface CartContextType {
@@ -23,7 +29,7 @@ interface CartContextType {
   totalItems: number;
   subtotal: number;
   toasts: ToastMessage[];
-  addToast: (title: string, description?: string, type?: ToastType) => void;
+  addToast: (title: string, description?: string, type?: ToastType, action?: ToastAction) => void;
   removeToast: (id: string) => void;
   selectedProductForModal: Product | null;
   openProductModal: (product: Product) => void;
@@ -81,10 +87,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const addToast = useCallback(
-    (title: string, description?: string, type: ToastType = 'default') => {
+    (title: string, description?: string, type: ToastType = 'default', action?: ToastAction) => {
       const id = Math.random().toString(36).substring(2, 9);
-      setToasts((prev) => [...prev, { id, title, description, type }]);
-      setTimeout(() => removeToast(id), TOAST_DURATION_MS);
+      setToasts((prev) => [...prev, { id, title, description, type, action }]);
+      // Toasts with a link stay longer so there is time to use it.
+      setTimeout(() => removeToast(id), action ? 10000 : TOAST_DURATION_MS);
     },
     [removeToast]
   );

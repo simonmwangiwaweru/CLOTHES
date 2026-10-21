@@ -1,3 +1,4 @@
+import type React from 'react';
 import { SITE_CONFIG } from '../config/site';
 import { CartItem, CheckoutFormState, Product } from '../types';
 import { formatPrice, generateOrderCode } from './format';
@@ -76,11 +77,28 @@ export function getGeneralInquiryUrl(customMessage?: string): string {
   return getWhatsAppUrl(message);
 }
 
+const isMobileDevice = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 /**
- * Opens WhatsApp in a new tab so the shopper keeps their bag and place on the page.
- * Falls back to same-tab navigation if the browser blocks the popup.
+ * Opens a WhatsApp chat as directly as the device allows.
+ * - Phones: the wa.me link hands straight to the WhatsApp app.
+ * - Computers: wa.me always shows an "Open app / Continue to WhatsApp Web" page first, so we
+ *   launch the WhatsApp desktop app through its whatsapp:// link instead. Nothing happens if the
+ *   app is not installed, which is why callers also offer a "open in browser" link.
  */
-export function openWhatsApp(url: string): void {
-  const win = window.open(url, '_blank', 'noopener,noreferrer');
-  if (!win) window.location.href = url;
+export function openWhatsAppChat(message: string): void {
+  if (isMobileDevice()) {
+    window.location.href = getWhatsAppUrl(message);
+    return;
+  }
+  const { number } = SITE_CONFIG.whatsapp;
+  window.location.href = `whatsapp://send?phone=${number}&text=${encodeURIComponent(message)}`;
+}
+
+/** Click handler for plain WhatsApp links: opens the app directly, keeps the href as a fallback. */
+export function handleWhatsAppLinkClick(e: React.MouseEvent, message: string): void {
+  // Let Ctrl/Cmd/middle-click open the normal link in a new tab.
+  if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
+  e.preventDefault();
+  openWhatsAppChat(message);
 }

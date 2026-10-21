@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { X, Minus, Plus, ShoppingBag, MessageCircle, Check, ShieldCheck, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../lib/format';
-import { buildQuickOrderMessage, getWhatsAppUrl, openWhatsApp } from '../lib/whatsapp';
+import { buildQuickOrderMessage, getWhatsAppUrl, openWhatsAppChat } from '../lib/whatsapp';
 import { useDialog } from '../lib/useDialog';
 import { ProductImage } from './ProductImage';
 import { ProductColor } from '../types';
@@ -44,8 +44,11 @@ export const ProductModal: React.FC = () => {
 
   const handleWhatsAppOrder = () => {
     const message = buildQuickOrderMessage(product, selectedSize, selectedColor.name, quantity);
-    addToast('Opening WhatsApp', `${product.name} · ${selectedSize} · ${selectedColor.name}`, 'whatsapp');
-    openWhatsApp(getWhatsAppUrl(message));
+    addToast('Opening WhatsApp', `${product.name} · ${selectedSize} · ${selectedColor.name}`, 'whatsapp', {
+      label: 'Nothing opened? Open in browser',
+      href: getWhatsAppUrl(message),
+    });
+    openWhatsAppChat(message);
   };
 
   return (

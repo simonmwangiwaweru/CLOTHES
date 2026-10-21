@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { X, Trash2, Plus, Minus, MessageCircle, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatPrice, generateOrderCode } from '../lib/format';
-import { buildWhatsAppOrderMessage, getWhatsAppUrl, openWhatsApp } from '../lib/whatsapp';
+import { buildWhatsAppOrderMessage, getWhatsAppUrl, openWhatsAppChat } from '../lib/whatsapp';
 import { useDialog } from '../lib/useDialog';
 import { ProductImage } from './ProductImage';
 import { CheckoutFormState } from '../types';
@@ -49,8 +49,11 @@ export const CartDrawer: React.FC = () => {
 
     const orderCode = generateOrderCode();
     const message = buildWhatsAppOrderMessage(items, subtotal, form, orderCode);
-    addToast('Opening WhatsApp', `Order #UND-${orderCode}. Send the message to confirm.`, 'whatsapp');
-    openWhatsApp(getWhatsAppUrl(message));
+    addToast('Opening WhatsApp', `Order #UND-${orderCode}. Send the message to confirm.`, 'whatsapp', {
+      label: 'Nothing opened? Open in browser',
+      href: getWhatsAppUrl(message),
+    });
+    openWhatsAppChat(message);
   };
 
   const fieldProps = (key: keyof FormErrors) => ({

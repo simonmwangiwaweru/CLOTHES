@@ -1,10 +1,12 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { getGeneralInquiryUrl } from '../lib/whatsapp';
+import { getGeneralInquiryUrl, handleWhatsAppLinkClick } from '../lib/whatsapp';
+import { SITE_CONFIG } from '../config/site';
 
 export const WhatsAppFab: React.FC = () => (
   <a
     href={getGeneralInquiryUrl()}
+    onClick={(e) => handleWhatsAppLinkClick(e, SITE_CONFIG.whatsapp.defaultInquiryMessage)}
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Chat with UNDIGNIFIED MERCH on WhatsApp"

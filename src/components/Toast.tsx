@@ -32,6 +32,16 @@ export const ToastContainer: React.FC = () => {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-bold">{toast.title}</p>
             {toast.description && <p className="mt-0.5 text-sm text-muted">{toast.description}</p>}
+            {toast.action && (
+              <a
+                href={toast.action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-sm font-semibold underline underline-offset-4"
+              >
+                {toast.action.label}
+              </a>
+            )}
           </div>
 
           <button

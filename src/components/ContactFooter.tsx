@@ -2,7 +2,7 @@ import React from 'react';
 import { MessageCircle, MapPin, ArrowUpRight } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { Logo } from './Logo';
-import { getGeneralInquiryUrl } from '../lib/whatsapp';
+import { getGeneralInquiryUrl, handleWhatsAppLinkClick } from '../lib/whatsapp';
 
 const { event } = SITE_CONFIG;
 
@@ -32,7 +32,13 @@ export const ContactFooter: React.FC = () => (
           </div>
 
           <div>
-            <a href={getGeneralInquiryUrl()} target="_blank" rel="noopener noreferrer" className="btn-whatsapp gap-3 px-8 py-4 shadow-md">
+            <a
+              href={getGeneralInquiryUrl()}
+              onClick={(e) => handleWhatsAppLinkClick(e, SITE_CONFIG.whatsapp.defaultInquiryMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-whatsapp gap-3 px-8 py-4 shadow-md"
+            >
               <MessageCircle className="h-5 w-5" />
               <span>Chat on WhatsApp</span>
               <ArrowUpRight className="h-4 w-4" />
