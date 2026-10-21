@@ -127,7 +127,7 @@ export const CartDrawer: React.FC = () => {
                           <div>
                             <h3 className="line-clamp-1 text-sm font-semibold">{item.product.name}</h3>
                             <p className="mt-0.5 text-xs text-muted">
-                              {item.selectedSize} · {item.selectedColor.name}
+                              {item.selectedSize} · {item.selectedColor.name} · {formatPrice(item.product.price)} each
                             </p>
                           </div>
                           <button

@@ -114,7 +114,7 @@ export const ProductModal: React.FC = () => {
               <span className="label mb-2">
                 Colour: <span className="font-normal normal-case tracking-normal text-muted">{selectedColor.name}</span>
               </span>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className={`flex-wrap items-center gap-3 ${product.colors.length > 1 ? 'flex' : 'hidden'}`}>
                 {product.colors.map((color) => {
                   const selected = selectedColor.name === color.name;
                   return (

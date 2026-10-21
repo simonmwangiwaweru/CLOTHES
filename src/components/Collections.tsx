@@ -6,6 +6,7 @@ import { ProductCard } from './ProductCard';
 import { ProductImage } from './ProductImage';
 import { SectionHeading } from './SectionHeading';
 import { useCart } from '../context/CartContext';
+import { formatPrice } from '../lib/format';
 
 type SortKey = 'newest' | 'price-asc' | 'price-desc';
 
@@ -25,7 +26,16 @@ export const Collections: React.FC = () => {
     () =>
       CATEGORIES.map((name) => {
         const products = PRODUCTS.filter((p) => p.category === name);
-        return { name, count: products.length, image: products.find((p) => p.images.length > 0)?.images[0] };
+        const prices = products.map((p) => p.price);
+        return {
+          name,
+          count: products.length,
+          image: products.find((p) => p.images.length > 0)?.images[0],
+          priceLabel:
+            Math.min(...prices) === Math.max(...prices)
+              ? formatPrice(prices[0])
+              : `From ${formatPrice(Math.min(...prices))}`,
+        };
       }),
     []
   );
@@ -92,6 +102,9 @@ export const Collections: React.FC = () => {
                   {cat.count}
                 </span>
               </div>
+              <p className={`mt-1 text-xs font-semibold tabular-nums ${selected ? 'text-on-accent' : 'text-brass-text'}`}>
+                {cat.priceLabel}
+              </p>
             </button>
           );
         })}

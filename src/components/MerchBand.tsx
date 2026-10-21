@@ -1,6 +1,10 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { IMAGES } from '../data/images';
+import { PRODUCTS } from '../data/products';
+import { formatPrice } from '../lib/format';
+
+const LOWEST_PRICE = Math.min(...PRODUCTS.map((p) => p.price));
 
 /** Bridges the event hero to the shop: the collection, worn. */
 export const MerchBand: React.FC = () => (
@@ -24,6 +28,7 @@ export const MerchBand: React.FC = () => (
           Hoodies, sweatshirts, polos, tees, caps and jute bags. Every piece you buy raises funds for
           Worship Night 2026.
         </p>
+        <p className="mt-3 text-sm font-semibold text-brass-text">Prices start at {formatPrice(LOWEST_PRICE)}</p>
         <a href="#collections" className="btn-primary group mt-8 px-8 py-3.5">
           <span>Shop the collection</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

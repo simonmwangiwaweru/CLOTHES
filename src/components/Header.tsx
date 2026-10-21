@@ -4,16 +4,16 @@ import { Logo } from './Logo';
 import { useCart } from '../context/CartContext';
 import { SITE_CONFIG } from '../config/site';
 import { useDialog } from '../lib/useDialog';
+import { ProductCategory } from '../types';
 
-// Each entry jumps to that product's card in the catalog.
-const NAV_PRODUCTS = [
-  { label: 'Hoodie', targetId: 'hoodie' },
-  { label: 'Sweatshirts', targetId: 'sweatshirts' },
-  { label: 'Polo shirts', targetId: 'polo-shirts' },
-  { label: 'Round neck t-shirts', targetId: 'round-neck-t-shirts' },
-  { label: 'Caps', targetId: 'caps' },
-  { label: 'Jute bags A4', targetId: 'jute-bags-a4' },
-  { label: 'Jute bags A3', targetId: 'jute-bags-a3' },
+// Each entry filters the catalog to that category and scrolls to it.
+const NAV_CATEGORIES: { label: string; category: ProductCategory }[] = [
+  { label: 'Hoodies', category: 'Hoodies' },
+  { label: 'Sweatshirts', category: 'Sweatshirts' },
+  { label: 'Polo shirts', category: 'Polo Shirts' },
+  { label: 'T-shirts', category: 'T-Shirts' },
+  { label: 'Caps', category: 'Caps' },
+  { label: 'Jute bags', category: 'Bags' },
 ];
 
 export const Header: React.FC = () => {
@@ -40,22 +40,11 @@ export const Header: React.FC = () => {
   const scrollToCatalog = () =>
     document.getElementById('products-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const handleNavClick = (targetId: string) => {
+  const handleNavClick = (category: ProductCategory) => {
     setMobileMenuOpen(false);
-    // Clear filters so the product card is guaranteed to be in the grid.
     setSearchQuery('');
-    setActiveCategory('All');
-    requestAnimationFrame(() => {
-      const element = document.getElementById(`product-${targetId}`);
-      if (!element) {
-        document.getElementById('collections')?.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      element.classList.remove('flash-highlight');
-      void element.offsetWidth; // restart the animation if it is already running
-      element.classList.add('flash-highlight');
-    });
+    setActiveCategory(category);
+    requestAnimationFrame(scrollToCatalog);
   };
 
   const closeSearch = () => {
@@ -77,13 +66,13 @@ export const Header: React.FC = () => {
             </a>
 
             <nav
-              aria-label="Shop by product"
+              aria-label="Shop by category"
               className="no-scrollbar hidden min-w-0 max-w-[680px] items-center gap-1 overflow-x-auto rounded-full border border-brass bg-bg/70 px-3 py-1 backdrop-blur-xs lg:flex xl:max-w-none"
             >
-              {NAV_PRODUCTS.map((item) => (
+              {NAV_CATEGORIES.map((item) => (
                 <button
-                  key={item.targetId}
-                  onClick={() => handleNavClick(item.targetId)}
+                  key={item.category}
+                  onClick={() => handleNavClick(item.category)}
                   className="whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:text-brass-text"
                 >
                   {item.label}
@@ -175,7 +164,7 @@ export const Header: React.FC = () => {
             </button>
           </div>
 
-          <nav aria-label="Shop by product" className="my-auto flex flex-col gap-1 py-6">
+          <nav aria-label="Shop by category" className="my-auto flex flex-col gap-1 py-6">
             <a
               href="#partner"
               onClick={() => setMobileMenuOpen(false)}
@@ -183,11 +172,11 @@ export const Header: React.FC = () => {
             >
               Partner with us
             </a>
-            <span className="eyebrow mb-2">Shop by piece</span>
-            {NAV_PRODUCTS.map((item) => (
+            <span className="eyebrow mb-2">Shop by category</span>
+            {NAV_CATEGORIES.map((item) => (
               <button
-                key={item.targetId}
-                onClick={() => handleNavClick(item.targetId)}
+                key={item.category}
+                onClick={() => handleNavClick(item.category)}
                 className="py-1.5 text-left font-display text-3xl uppercase tracking-wide text-ink transition-transform hover:translate-x-2"
               >
                 {item.label}
