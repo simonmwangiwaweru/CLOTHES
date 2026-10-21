@@ -11,7 +11,7 @@ The fundraising storefront for **Undignified Worship Night 2026**, hosted by Red
 - **Event hero**: gold-metal headline, event facts, and a muted looping video (pause button; reduced-motion visitors get a still photo).
 - **Partner with us**: the event poster plus Family Bank Paybill details with copy buttons.
 - **About us**: why the clothing line exists, in five short points.
-- **Shop**: Hoodie, Sweatshirts, Polo Shirts, Round Neck T-Shirts, Caps, Jute Bags A4 and A3, Wrist Bands (KES), with filters, sorting, search, and animated transitions between categories.
+- **Shop**: Hoodie, Sweatshirts, Polo Shirts, Round Neck T-Shirts, Caps, Jute Bags A4 and A3 (KES), with filters, sorting, search, and animated transitions between categories.
 - **WhatsApp checkout**: shoppers fill their bag, enter name and phone, and send a pre-formatted order. We confirm availability and collection on WhatsApp, then they pay by Paybill. There is no delivery.
 - **How to pay**: three steps plus the payment details.
 - **Design system**: black and gold tokens in `src/index.css`; Bebas Neue and Archivo are self-hosted.
@@ -95,7 +95,7 @@ To change pricing, add new products, or update sizes:
 ```
 
 ### How to Add or Change Photos
-Drop the file in `src/assets/images/`, import it in `src/data/images.ts`, then reference it from `src/data/products.ts`. Products with `images: []` show a "Photo coming soon" tile. Currently missing photos: Polo Shirts, Round Neck T-Shirts, Wrist Bands.
+Drop the file in `src/assets/images/`, import it in `src/data/images.ts`, then reference it from `src/data/products.ts`. Resize phone photos to about 1200×1600 first. Full-size originals belong in `source-assets/`, which is git-ignored. A product with `images: []` shows a "Photo coming soon" tile, so only list products that have a photo and a price.
 
 ### How to Edit Event Details and Payment Info
 Everything about the event (date, time, venue, verse) and the payment details (bank, Paybill, account number and title) lives in `src/config/site.ts`. Change it there and every section updates.

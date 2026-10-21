@@ -14,7 +14,6 @@ const NAV_PRODUCTS = [
   { label: 'Caps', targetId: 'caps' },
   { label: 'Jute bags A4', targetId: 'jute-bags-a4' },
   { label: 'Jute bags A3', targetId: 'jute-bags-a3' },
-  { label: 'Wrist bands', targetId: 'wrist-bands' },
 ];
 
 export const Header: React.FC = () => {

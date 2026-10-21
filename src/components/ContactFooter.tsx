@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'About us', href: '#about' },
   { label: 'Partner with us', href: '#partner' },
-  { label: 'Popular goods', href: '#popular' },
+  { label: 'Featured', href: '#popular' },
   { label: 'Collections', href: '#collections' },
   { label: 'How to pay', href: '#payment' },
   { label: 'Contact', href: '#contact' },

@@ -21,7 +21,7 @@ export const MerchBand: React.FC = () => (
           Wear the message
         </h2>
         <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-          Hoodies, sweatshirts, polos, tees, caps, jute bags and wrist bands. Every piece you buy raises funds for
+          Hoodies, sweatshirts, polos, tees, caps and jute bags. Every piece you buy raises funds for
           Worship Night 2026.
         </p>
         <a href="#collections" className="btn-primary group mt-8 px-8 py-3.5">

@@ -41,7 +41,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 /**
  * Restore the cart from localStorage, re-reading each product from the catalog so
- * price changes apply and products that no longer exist are dropped.
+ * price changes apply and anything that no longer exists is dropped.
  */
 function loadStoredCart(): CartItem[] {
   try {
@@ -50,7 +50,10 @@ function loadStoredCart(): CartItem[] {
     const parsed = JSON.parse(stored) as CartItem[];
     return parsed.flatMap((item) => {
       const product = PRODUCTS.find((p) => p.id === item.product?.id);
-      return product && item.quantity > 0 ? [{ ...item, product }] : [];
+      // Drop items whose product, colour or size no longer exists in the catalog.
+      const color = product?.colors.find((c) => c.name === item.selectedColor?.name);
+      if (!product || !color || !product.sizes.includes(item.selectedSize) || !(item.quantity > 0)) return [];
+      return [{ ...item, product, selectedColor: color }];
     });
   } catch {
     return [];
