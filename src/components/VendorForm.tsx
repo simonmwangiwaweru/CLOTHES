@@ -3,7 +3,7 @@ import { CheckCircle2, MessageCircle } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { MAX_STALLS_PER_APPLICATION, VENDOR_CATEGORIES, VENDOR_EQUIPMENT } from '../data/partnership';
 import { useCart } from '../context/CartContext';
-import { formatPrice } from '../lib/format';
+import { formatPrice, generateOrderCode } from '../lib/format';
 import { buildVendorApplicationMessage, getWhatsAppUrl, openWhatsAppChat } from '../lib/whatsapp';
 import { PaymentDetails } from './PaymentDetails';
 
@@ -128,7 +128,7 @@ export const VendorForm: React.FC = () => {
   const { addToast } = useCart();
   const [form, setForm] = useState<FormState>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [sent, setSent] = useState(false);
+  const [reference, setReference] = useState('');
 
   const category = VENDOR_CATEGORIES.find((c) => c.id === form.categoryId);
   const stalls = Number(form.stalls) || 0;
@@ -153,7 +153,9 @@ export const VendorForm: React.FC = () => {
     }
     if (!category) return;
 
+    const ref = `VND-${generateOrderCode()}`;
     const message = buildVendorApplicationMessage({
+      reference: ref,
       businessName: form.businessName,
       contactName: form.contactName,
       phone: form.phone,
@@ -162,6 +164,7 @@ export const VendorForm: React.FC = () => {
       categoryName: category.name,
       space: category.space,
       stalls,
+      unitFee: category.fee,
       estimatedFee: estimate,
       offering: form.offering,
       equipment: form.equipment,
@@ -175,14 +178,17 @@ export const VendorForm: React.FC = () => {
       href: getWhatsAppUrl(message, partnerships.number),
     });
     openWhatsAppChat(message, partnerships.number);
-    setSent(true);
+    setReference(ref);
   };
 
-  if (sent) {
+  if (reference) {
     return (
       <div className="rounded-card border border-brass bg-surface/80 p-6 sm:p-8" role="status">
         <CheckCircle2 className="h-8 w-8 text-brass-text" aria-hidden="true" />
         <h3 className="heading-card mt-3 text-3xl">Your application is ready</h3>
+        <p className="mt-2 text-sm text-muted">
+          Reference <span className="font-semibold tabular-nums text-ink">{reference}</span>
+        </p>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">
           Send the message in WhatsApp to submit it. Our team will then review your application and contact you on the
           phone number you gave. Your stall is confirmed only after you receive confirmation from the committee.
@@ -193,7 +199,7 @@ export const VendorForm: React.FC = () => {
         <div className="mt-6">
           <PaymentDetails heading="Stall fee payment" />
         </div>
-        <button onClick={() => { setForm(EMPTY); setSent(false); }} className="btn-outline btn-sm mt-6">
+        <button onClick={() => { setForm(EMPTY); setReference(''); }} className="btn-outline btn-sm mt-6">
           Start another application
         </button>
       </div>
@@ -213,7 +219,7 @@ export const VendorForm: React.FC = () => {
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="vendor-businessName" className="mb-1 block text-sm font-medium">Business or vendor name</label>
-          <input id="vendor-businessName" type="text" autoComplete="organization" value={form.businessName}
+          <input id="vendor-businessName" type="text" maxLength={100} autoComplete="organization" value={form.businessName}
             onChange={(e) => set('businessName', e.target.value)} className="field"
             aria-invalid={errors.businessName ? true : undefined} aria-describedby={errors.businessName ? 'vendor-businessName-error' : undefined} />
           {errors.businessName && <span id="vendor-businessName-error" className="field-error">{errors.businessName}</span>}
@@ -221,7 +227,7 @@ export const VendorForm: React.FC = () => {
 
         <div>
           <label htmlFor="vendor-contactName" className="mb-1 block text-sm font-medium">Contact person (full name)</label>
-          <input id="vendor-contactName" type="text" autoComplete="name" value={form.contactName}
+          <input id="vendor-contactName" type="text" maxLength={80} autoComplete="name" value={form.contactName}
             onChange={(e) => set('contactName', e.target.value)} className="field"
             aria-invalid={errors.contactName ? true : undefined} aria-describedby={errors.contactName ? 'vendor-contactName-error' : undefined} />
           {errors.contactName && <span id="vendor-contactName-error" className="field-error">{errors.contactName}</span>}
@@ -243,7 +249,7 @@ export const VendorForm: React.FC = () => {
 
         <div>
           <label htmlFor="vendor-location" className="mb-1 block text-sm font-medium">Business location <span className="text-xs font-normal text-muted">city or town</span></label>
-          <input id="vendor-location" type="text" autoComplete="address-level2" value={form.location}
+          <input id="vendor-location" type="text" maxLength={80} autoComplete="address-level2" value={form.location}
             onChange={(e) => set('location', e.target.value)} className="field"
             aria-invalid={errors.location ? true : undefined} aria-describedby={errors.location ? 'vendor-location-error' : undefined} />
           {errors.location && <span id="vendor-location-error" className="field-error">{errors.location}</span>}
@@ -263,7 +269,7 @@ export const VendorForm: React.FC = () => {
 
       <div>
         <label htmlFor="vendor-offering" className="mb-1 block text-sm font-medium">What exactly will you sell or display?</label>
-        <textarea id="vendor-offering" rows={3} placeholder="List your main products or services." value={form.offering}
+        <textarea id="vendor-offering" rows={3} maxLength={600} placeholder="List your main products or services." value={form.offering}
           onChange={(e) => set('offering', e.target.value)} className="field"
           aria-invalid={errors.offering ? true : undefined} aria-describedby={errors.offering ? 'vendor-offering-error' : undefined} />
         {errors.offering && <span id="vendor-offering-error" className="field-error">{errors.offering}</span>}
@@ -329,7 +335,7 @@ export const VendorForm: React.FC = () => {
 
       <div>
         <label htmlFor="vendor-pageLink" className="mb-1 block text-sm font-medium">Link to your business page <span className="text-xs font-normal text-muted">Instagram, Facebook, TikTok or website · optional</span></label>
-        <input id="vendor-pageLink" type="url" inputMode="url" placeholder="https://" value={form.pageLink}
+        <input id="vendor-pageLink" type="url" maxLength={200} inputMode="url" placeholder="https://" value={form.pageLink}
           onChange={(e) => set('pageLink', e.target.value)} className="field" />
       </div>
 

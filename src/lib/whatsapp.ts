@@ -115,6 +115,7 @@ export function buildSponsorEnquiryMessage(tierName: string, price: number): str
 }
 
 export interface VendorApplication {
+  reference: string;
   businessName: string;
   contactName: string;
   phone: string;
@@ -123,41 +124,87 @@ export interface VendorApplication {
   categoryName: string;
   space: string;
   stalls: number;
+  unitFee: number;
   estimatedFee: number;
   offering: string;
   equipment: string[];
   electricity: string;
+  /** Only asked of food and drinks vendors. */
   certificate?: string;
   experience?: string;
   pageLink?: string;
 }
 
-/** Message for a vendor stall application, sent to the partnerships contact. */
+const LABEL_WIDTH = 13;
+const FENCE = '```';
+
+/** WhatsApp shows ``` blocks in a monospace font, so padded labels line up exactly. */
+function fieldBlock(rows: [string, string][]): string {
+  const body = rows
+    .map(([label, value]) => `${label.padEnd(LABEL_WIDTH)}: ${value.replace(/`/g, "'").replace(/\s*\n\s*/g, ' ')}`)
+    .join('\n');
+  return `${FENCE}\n${body}\n${FENCE}`;
+}
+
+/**
+ * Message for a vendor stall application, sent to the partnerships contact.
+ * Every answer from the form appears, in the same order as the form, in fixed sections.
+ */
 export function buildVendorApplicationMessage(a: VendorApplication): string {
+  const submitted = new Date().toLocaleString('en-KE', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Africa/Nairobi',
+  });
+  const none = 'Not given';
+  const offering = a.offering.trim().replace(/\n{3,}/g, '\n\n');
+
+  const other: [string, string][] = [['Electricity', a.electricity]];
+  if (a.certificate) other.push(['Food cert.', a.certificate]);
+  other.push(['Vendor before', a.experience || none]);
+  other.push(['Business page', a.pageLink?.trim() || none]);
+
   const lines = [
     'Hello Godfrey, I would like to apply for a stall at Undignified Worship Night 2026.',
     '',
-    'VENDOR APPLICATION',
-    `Business: ${a.businessName.trim()}`,
-    `Contact person: ${a.contactName.trim()}`,
-    `Phone: ${a.phone.trim()}`,
-    `Email: ${a.email.trim() || 'None'}`,
-    `Location: ${a.location.trim()}`,
-    `Stall category: ${a.categoryName} (${a.space})`,
-    `Stalls needed: ${a.stalls}`,
-    `Proposed fee: ${formatPrice(a.estimatedFee)}`,
-    `Selling or displaying: ${a.offering.trim()}`,
-    `Bringing: ${a.equipment.length > 0 ? a.equipment.join(', ') : 'Nothing listed'}`,
-    `Electricity needed: ${a.electricity}`,
-  ];
-  if (a.certificate) lines.push(`Food handler certificate: ${a.certificate}`);
-  if (a.experience) lines.push(`Vendor at an event before: ${a.experience}`);
-  if (a.pageLink?.trim()) lines.push(`Business page: ${a.pageLink.trim()}`);
-  lines.push(
+    '*VENDOR APPLICATION*',
+    'Undignified Worship Night 2026 · Fri 4 Dec 2026 · RGC Ruiru',
+    fieldBlock([
+      ['Reference', a.reference],
+      ['Submitted', submitted],
+    ]),
     '',
-    'I agree to the stall fee and understand my stall is allocated only after the committee confirms my application.',
-    'I agree to keep to the event rules and my allocated space.',
-    'I consent to RGC Ruiru using these details for vendor coordination for Undignified Worship Night 2026.'
-  );
+    '*1. APPLICANT*',
+    fieldBlock([
+      ['Business', a.businessName.trim()],
+      ['Contact', a.contactName.trim()],
+      ['Phone', a.phone.trim()],
+      ['Email', a.email.trim() || none],
+      ['Location', a.location.trim()],
+    ]),
+    '',
+    '*2. STALL*',
+    fieldBlock([
+      ['Category', a.categoryName],
+      ['Space', a.space],
+      ['Stalls needed', String(a.stalls)],
+      ['Fee per stall', formatPrice(a.unitFee)],
+      ['Proposed fee', `${formatPrice(a.estimatedFee)} (to be confirmed)`],
+    ]),
+    '',
+    '*3. WHAT I WILL SELL OR DISPLAY*',
+    offering,
+    '',
+    '*4. EQUIPMENT I WILL BRING*',
+    ...(a.equipment.length > 0 ? a.equipment.map((item) => `• ${item}`) : ['• Nothing listed']),
+    '',
+    '*5. OTHER DETAILS*',
+    fieldBlock(other),
+    '',
+    '*6. AGREEMENTS*',
+    '✔ I agree to the stall fee for my category. My stall is allocated only after the committee confirms my application.',
+    '✔ I agree to keep to the event rules and my allocated space.',
+    '✔ I consent to RGC Ruiru using these details for vendor coordination for Undignified Worship Night 2026.',
+  ];
   return lines.join('\n');
 }
