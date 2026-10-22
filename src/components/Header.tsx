@@ -172,6 +172,10 @@ export const Header: React.FC = () => {
             >
               Partner with us
             </a>
+            <div className="mb-6 flex gap-5 text-sm font-semibold underline underline-offset-4">
+              <a href="#sponsors" onClick={() => setMobileMenuOpen(false)}>Sponsors</a>
+              <a href="#vendors" onClick={() => setMobileMenuOpen(false)}>Sell at the night</a>
+            </div>
             <span className="eyebrow mb-2">Shop by category</span>
             {NAV_CATEGORIES.map((item) => (
               <button

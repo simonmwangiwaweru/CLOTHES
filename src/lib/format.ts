@@ -29,3 +29,13 @@ export function generateOrderCode(): string {
   }
   return result;
 }
+
+/** "254704514466" -> "0704 514 466". Falls back to "+digits" for non-Kenyan numbers. */
+export function formatPhoneDisplay(number: string): string {
+  const digits = number.replace(/\D/g, '');
+  if (digits.startsWith('254') && digits.length === 12) {
+    const national = `0${digits.slice(3)}`;
+    return `${national.slice(0, 4)} ${national.slice(4, 7)} ${national.slice(7)}`;
+  }
+  return digits ? `+${digits}` : number;
+}

@@ -1,3 +1,5 @@
+const SHOP_WHATSAPP_NUMBER = (import.meta.env.VITE_WHATSAPP_NUMBER || '254704514466').replace(/[^0-9]/g, '');
+
 export const SITE_CONFIG = {
   brand: {
     name: 'UNDIGNIFIED MERCH',
@@ -31,7 +33,25 @@ export const SITE_CONFIG = {
   // WhatsApp: reads VITE_WHATSAPP_NUMBER, falling back to the store number below.
   whatsapp: {
     // Number format: digits only, international format, no '+' or spaces (e.g., '254704514466')
-    number: (import.meta.env.VITE_WHATSAPP_NUMBER || '254704514466').replace(/[^0-9]/g, ''),
+    number: SHOP_WHATSAPP_NUMBER,
     defaultInquiryMessage: 'Hello, I have a question about Undignified Worship Night 2026.',
+  },
+
+  // Everywhere a contact is needed, both are shown.
+  contacts: {
+    orders: {
+      id: 'orders',
+      label: 'Orders and questions',
+      name: 'UNDIGNIFIED MERCH',
+      number: SHOP_WHATSAPP_NUMBER,
+      greeting: 'Hello UNDIGNIFIED MERCH, I have a question about Undignified Worship Night 2026.',
+    },
+    partnerships: {
+      id: 'partnerships',
+      label: 'Sponsors and vendors',
+      name: 'Godfrey Muchai',
+      number: '254729470151',
+      greeting: 'Hello Godfrey, I have a question about Undignified Worship Night 2026.',
+    },
   },
 };

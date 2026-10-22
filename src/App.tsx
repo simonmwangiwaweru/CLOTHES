@@ -10,6 +10,8 @@ import { Hero } from './components/Hero';
 import { MerchBand } from './components/MerchBand';
 import { AboutUs } from './components/AboutUs';
 import { Partner } from './components/Partner';
+import { Sponsors } from './components/Sponsors';
+import { Vendors } from './components/Vendors';
 import { PopularGoods } from './components/PopularGoods';
 import { Collections } from './components/Collections';
 import { Payment } from './components/Payment';
@@ -36,6 +38,12 @@ export default function App() {
           </Reveal>
           <Reveal>
             <Partner />
+          </Reveal>
+          <Reveal>
+            <Sponsors />
+          </Reveal>
+          <Reveal>
+            <Vendors />
           </Reveal>
           <Reveal>
             <PopularGoods />

@@ -3,6 +3,7 @@ import { MessageCircle, MapPin, ArrowUpRight } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { Logo } from './Logo';
 import { getGeneralInquiryUrl, handleWhatsAppLinkClick } from '../lib/whatsapp';
+import { ContactLines } from './ContactLines';
 
 const { event } = SITE_CONFIG;
 
@@ -10,6 +11,8 @@ const NAV_LINKS = [
   { label: 'Home', href: '#hero' },
   { label: 'About us', href: '#about' },
   { label: 'Partner with us', href: '#partner' },
+  { label: 'Sponsors', href: '#sponsors' },
+  { label: 'Vendors', href: '#vendors' },
   { label: 'Featured', href: '#popular' },
   { label: 'Collections', href: '#collections' },
   { label: 'How to pay', href: '#payment' },
@@ -55,6 +58,8 @@ export const ContactFooter: React.FC = () => (
               {SITE_CONFIG.brand.location}
             </dd>
           </dl>
+
+          <ContactLines className="sm:grid-cols-1" />
 
           <figure className="panel p-5">
             <blockquote className="text-base leading-relaxed text-ink-soft">“{event.verse.text}”</blockquote>

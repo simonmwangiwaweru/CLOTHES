@@ -2,6 +2,7 @@ import React from 'react';
 import { SITE_CONFIG } from '../config/site';
 import { SectionHeading } from './SectionHeading';
 import { PaymentDetails } from './PaymentDetails';
+import { ContactLines } from './ContactLines';
 
 const { payment } = SITE_CONFIG;
 
@@ -45,6 +46,10 @@ export const Payment: React.FC = () => (
 
       <div className="lg:col-span-6">
         <PaymentDetails heading="Payment details" />
+        <div className="mt-6">
+          <p className="label mb-3">Need help paying?</p>
+          <ContactLines />
+        </div>
       </div>
     </div>
   </section>

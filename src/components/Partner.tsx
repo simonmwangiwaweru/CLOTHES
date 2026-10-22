@@ -3,6 +3,7 @@ import { MapPin } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { IMAGES } from '../data/images';
 import { PaymentDetails } from './PaymentDetails';
+import { ContactLines } from './ContactLines';
 
 const { event } = SITE_CONFIG;
 
@@ -42,6 +43,11 @@ export const Partner: React.FC = () => (
 
         <div className="mt-8">
           <PaymentDetails />
+        </div>
+
+        <div className="mt-6">
+          <p className="label mb-3">Questions about giving</p>
+          <ContactLines />
         </div>
       </div>
     </div>

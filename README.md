@@ -10,6 +10,7 @@ The fundraising storefront for **Undignified Worship Night 2026**, hosted by Red
 
 - **Event hero**: gold-metal headline, event facts, and a muted looping video (pause button; reduced-motion visitors get a still photo).
 - **Partner with us**: the event poster plus Family Bank Paybill details with copy buttons.
+- **Sponsors and vendors**: sponsorship packages (Bronze to Platinum) and a vendor stall application. Stall fees are published as proposed. Applications and enquiries open WhatsApp to the partnerships contact. Edit packages, stalls and fees in `src/data/partnership.ts`; edit both contacts in `src/config/site.ts`.
 - **About us**: why the clothing line exists, in five short points.
 - **Shop**: hoodies, a sweatshirt, a polo, t-shirts in five colours, caps in black and white, and jute bags A4 and A3 (KES). Each colour is its own named product, with filters, sorting, search, and animated transitions between categories.
 - **WhatsApp checkout**: shoppers fill their bag, enter name and phone, and send a pre-formatted order. We confirm availability and collection on WhatsApp, then they pay by Paybill. There is no delivery.
