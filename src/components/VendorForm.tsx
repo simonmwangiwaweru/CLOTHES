@@ -3,7 +3,7 @@ import { CheckCircle2, MessageCircle } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
 import { MAX_STALLS_PER_APPLICATION, VENDOR_CATEGORIES, VENDOR_EQUIPMENT } from '../data/partnership';
 import { useCart } from '../context/CartContext';
-import { formatPrice, generateOrderCode } from '../lib/format';
+import { formatPrice } from '../lib/format';
 import { buildVendorApplicationMessage, getWhatsAppUrl, openWhatsAppChat } from '../lib/whatsapp';
 import { PaymentDetails } from './PaymentDetails';
 
@@ -128,7 +128,7 @@ export const VendorForm: React.FC = () => {
   const { addToast } = useCart();
   const [form, setForm] = useState<FormState>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [reference, setReference] = useState('');
+  const [sent, setSent] = useState(false);
 
   const category = VENDOR_CATEGORIES.find((c) => c.id === form.categoryId);
   const stalls = Number(form.stalls) || 0;
@@ -153,9 +153,7 @@ export const VendorForm: React.FC = () => {
     }
     if (!category) return;
 
-    const ref = `VND-${generateOrderCode()}`;
     const message = buildVendorApplicationMessage({
-      reference: ref,
       businessName: form.businessName,
       contactName: form.contactName,
       phone: form.phone,
@@ -178,17 +176,14 @@ export const VendorForm: React.FC = () => {
       href: getWhatsAppUrl(message, partnerships.number),
     });
     openWhatsAppChat(message, partnerships.number);
-    setReference(ref);
+    setSent(true);
   };
 
-  if (reference) {
+  if (sent) {
     return (
       <div className="rounded-card border border-brass bg-surface/80 p-6 sm:p-8" role="status">
         <CheckCircle2 className="h-8 w-8 text-brass-text" aria-hidden="true" />
         <h3 className="heading-card mt-3 text-3xl">Your application is ready</h3>
-        <p className="mt-2 text-sm text-muted">
-          Reference <span className="font-semibold tabular-nums text-ink">{reference}</span>
-        </p>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">
           Send the message in WhatsApp to submit it. Our team will then review your application and contact you on the
           phone number you gave. Your stall is confirmed only after you receive confirmation from the committee.
@@ -199,7 +194,7 @@ export const VendorForm: React.FC = () => {
         <div className="mt-6">
           <PaymentDetails heading="Stall fee payment" />
         </div>
-        <button onClick={() => { setForm(EMPTY); setReference(''); }} className="btn-outline btn-sm mt-6">
+        <button onClick={() => { setForm(EMPTY); setSent(false); }} className="btn-outline btn-sm mt-6">
           Start another application
         </button>
       </div>

@@ -115,7 +115,6 @@ export function buildSponsorEnquiryMessage(tierName: string, price: number): str
 }
 
 export interface VendorApplication {
-  reference: string;
   businessName: string;
   contactName: string;
   phone: string;
@@ -169,10 +168,7 @@ export function buildVendorApplicationMessage(a: VendorApplication): string {
     '',
     '*VENDOR APPLICATION*',
     'Undignified Worship Night 2026 · Fri 4 Dec 2026 · RGC Ruiru',
-    fieldBlock([
-      ['Reference', a.reference],
-      ['Submitted', submitted],
-    ]),
+    fieldBlock([['Submitted', submitted]]),
     '',
     '*1. APPLICANT*',
     fieldBlock([
